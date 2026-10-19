@@ -15,3 +15,5 @@ runs/
 # Never commit your API key
 .env
 dataset/
+.vscode/
+/yolo11*.pt
