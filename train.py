@@ -59,16 +59,29 @@ ROBOFLOW_FORMAT = "yolov8"  # label layout Ultralytics reads; YOLO11 uses the sa
 # exists to catch. Must be exactly one of the names in this dataset's data.yaml.
 POSITIVE_CLASS = "head"
 
-MODEL_CHECKPOINT = "yolo11s.pt"  # swap for "yolo11n.pt" for a smaller, faster model
-EPOCHS = 60
-IMG_SIZE = 640
+MODEL_CHECKPOINT = "yolo11n.pt"  # nano: fastest to fine-tune; swap for "yolo11s.pt" if you have a GPU
+EPOCHS = 25  # paired with PATIENCE below; 3 large, visually distinct classes don't need 60
+IMG_SIZE = 416  # smaller than the usual 640 -- compute scales roughly with imgsz^2
 BATCH = 16
+PATIENCE = 15  # stop early if val mAP hasn't improved in this many epochs
 SEED = 0
 
-# How often the camera takes a snapshot of the work area. This is the
-# exposure window a single missed violation is "live" for before the system
-# gets another chance at it, and it is reused below in the FN-cost estimate
-# and in the review-capacity math, so both sections agree on the same site.
+# Confidence floor for validation's internal NMS pass (used both during each
+# epoch's automatic validation and the final test-split eval). Ultralytics
+# defaults this near 0, which lets an early, noisy model flood NMS with
+# thousands of near-zero-confidence candidate boxes per image -- on MPS this
+# can make a single epoch's validation take 10x+ longer than training it did
+# (watch for repeated "NMS time limit exceeded" warnings as the symptom).
+# 0.01 is a 10x cut in candidate volume with a negligible effect on mAP, since
+# real detections score well above it even early in training.
+VAL_CONF = 0.01
+
+# How often the camera takes a snapshot of the work area. This feeds the
+# review-capacity math below (snapshots/day). It does NOT feed COST_FN
+# numerically -- P_INJURY_IF_MISSED there is a flat judgment call, not
+# derived from this interval. If you want the two to agree explicitly in
+# REPORT.md, say how this interval bounds the exposure window you assumed
+# when picking P_INJURY_IF_MISSED, rather than treating them as already linked.
 SNAPSHOT_INTERVAL_SECONDS = 120
 
 # --------------------------------------------------------------------------- #
@@ -280,6 +293,55 @@ def confusion_counts(rows: list[ScoredImage], low: float, high: float) -> dict:
     return counts
 
 
+def image_level_metrics(rows: list[ScoredImage], cut: float) -> dict:
+    """Snapshot-level precision / recall / accuracy if every score >= cut is
+    flagged as a violation. This is the unit the decision is made on, so it is
+    the fair way to put the finetuned model and both baselines side by side."""
+    tp = sum(1 for r in rows if r.truth == "violation" and r.score >= cut)
+    fp = sum(1 for r in rows if r.truth == "compliant" and r.score >= cut)
+    fn = sum(1 for r in rows if r.truth == "violation" and r.score < cut)
+    tn = sum(1 for r in rows if r.truth == "compliant" and r.score < cut)
+    n = len(rows) or 1
+    return {
+        "cut": cut, "tp": tp, "fp": fp, "fn": fn, "tn": tn,
+        "precision": tp / (tp + fp) if tp + fp else 0.0,
+        "recall": tp / (tp + fn) if tp + fn else 0.0,
+        "accuracy": (tp + tn) / n,
+    }
+
+
+def sensitivity_table(rows: list[ScoredImage]) -> list[dict]:
+    """Re-choose the band while moving one assumption at a time (README Step 6:
+    'the answer changes if X drops below Z'). The miss cost is moved through
+    P_INJURY_IF_MISSED, the judgment call it rests on; the base rate is the
+    most site-specific number in the file."""
+    scenarios = [
+        ("p_injury_if_missed", P_INJURY_IF_MISSED * m, {"cost_fn": COST_FN * m})
+        for m in (0.1, 0.25, 0.5, 1.0, 2.0, 4.0)
+    ] + [
+        ("base_rate", b, {"base_rate": b})
+        for b in (0.02, 0.05, 0.10, 0.20, 0.40)
+    ]
+    table = []
+    for assumption, value, overrides in scenarios:
+        best = rank_two_threshold_designs(rows, **overrides)[0]
+        alone = best_single_threshold(rows, **overrides)
+        everything = human_checks_everything(rows, **overrides)
+        nothing = do_nothing(
+            base_rate=overrides.get("base_rate", BASE_RATE),
+            cost_fn=overrides.get("cost_fn", COST_FN),
+        )
+        table.append({
+            "assumption": assumption, "value": value,
+            "low": best["low"], "high": best["high"],
+            "three_way_cost": best["cost"], "review_share": best["review_share"],
+            "model_alone_cost": alone["cost"],
+            "officer_checks_everything_cost": everything["cost"],
+            "do_nothing_cost": nothing["cost"],
+        })
+    return table
+
+
 # =========================================================================== #
 # PART 2 -- the training pipeline.
 # =========================================================================== #
@@ -290,6 +352,14 @@ elif torch.backends.mps.is_available():
     DEVICE = "mps"
 else:
     DEVICE = "cpu"
+
+# Standalone (post-training) validation/prediction calls have repeatedly
+# stalled for hours on MPS due to NMS, even with VAL_CONF narrowing the
+# candidate pool -- unlike the per-epoch validation inside model.train(),
+# which stayed fast. These are one-off calls, not repeated across 25 epochs,
+# so trading MPS's forward-pass speed for a CPU path that doesn't hit this
+# problem is worth it specifically here. Training itself stays on DEVICE.
+EVAL_DEVICE = "cpu" if DEVICE == "mps" else DEVICE
 
 
 def _ensure_absolute_path_key(data_yaml: Path, dataset_dir: Path) -> None:
@@ -339,13 +409,30 @@ def load_class_names(data_yaml: Path) -> list[str]:
 
 
 def finetune(data_yaml: Path) -> tuple[YOLO, Path]:
+    # Ultralytics pins dataloader workers to 0 on MPS (a known macOS
+    # multiprocessing issue with the MPS backend), so all image loading and
+    # augmentation runs single-threaded on the CPU. Mosaic augmentation
+    # (compositing 4 images into one per sample) is the heaviest part of that
+    # pipeline. On MPS/CPU, drop it and shrink the batch so one epoch actually
+    # finishes in a practical time; a real GPU keeps the full settings.
+    if DEVICE in ("mps", "cpu"):
+        batch, mosaic = 8, 0.0
+        print(f"Training on {DEVICE}: using batch={batch}, mosaic={mosaic} to keep this practical.")
+    else:
+        batch, mosaic = BATCH, 1.0
+
     print(f"Fine-tuning {MODEL_CHECKPOINT} on {data_yaml} (device={DEVICE}) ...")
     model = YOLO(MODEL_CHECKPOINT)
     model.train(
         data=str(data_yaml),
         epochs=EPOCHS,
         imgsz=IMG_SIZE,
-        batch=BATCH,
+        batch=batch,
+        mosaic=mosaic,
+        patience=PATIENCE,
+        conf=VAL_CONF,
+        cache="disk",  # cache each image's decode/resize once instead of redoing
+                        # it from the JPEG on every single epoch
         device=DEVICE,
         project=str(RUNS_DIR),
         name="finetune",
@@ -368,10 +455,22 @@ def ground_truth_label(label_path: Path, class_names: list[str]) -> set[str]:
     return {class_names[i] for i in ids}
 
 
-def score_split(model: YOLO, class_names: list[str], split: str = "test") -> list[ScoredImage]:
-    """One row per image: ground truth ("violation"/"compliant") and the model's
-    best score for the positive class, read at a near-zero confidence floor so
-    every threshold in CONF_GRID can be swept without re-running inference.
+def score_split(
+    model: YOLO,
+    class_names: list[str],
+    target_class: str = POSITIVE_CLASS,
+    split: str = "test",
+    chunk_size: int = 32,
+) -> list[ScoredImage]:
+    """One row per test image: the ground truth from the dataset's labels
+    ("violation" if any `head` box, else "compliant"), and the model's highest
+    confidence for `target_class` -- looked up in the model's OWN vocabulary,
+    so the same function scores the finetuned model ("head") and the COCO
+    zero-shot baseline ("person", the closest thing COCO has).
+
+    Scored at VAL_CONF rather than near zero: CONF_GRID starts at 0.02, so a
+    score below 0.01 lands in PASS at every threshold anyway, and a near-zero
+    floor floods NMS. Predicts in chunks: same results, less per-call overhead.
     """
     images_dir = DATASET_DIR / split / "images"
     labels_dir = DATASET_DIR / split / "labels"
@@ -379,35 +478,27 @@ def score_split(model: YOLO, class_names: list[str], split: str = "test") -> lis
         p for p in images_dir.glob("*") if p.suffix.lower() in (".jpg", ".jpeg", ".png")
     )
     rows: list[ScoredImage] = []
-    for image_path in image_paths:
-        labels = ground_truth_label(labels_dir / f"{image_path.stem}.txt", class_names)
-        truth = "violation" if POSITIVE_CLASS in labels else "compliant"
-
-        result = model.predict(str(image_path), conf=0.001, device=DEVICE, verbose=False)[0]
-        positive_scores = [
-            float(box.conf)
-            for box in result.boxes
-            if class_names[int(box.cls)] == POSITIVE_CLASS
-        ]
-        score = max(positive_scores) if positive_scores else 0.0
-        rows.append(ScoredImage(image=str(image_path.relative_to(ROOT)), truth=truth, score=score))
+    total = len(image_paths)
+    for start in range(0, total, chunk_size):
+        chunk = image_paths[start : start + chunk_size]
+        print(f"  scoring {min(start + chunk_size, total)}/{total} ...")
+        results = model.predict(
+            [str(p) for p in chunk], conf=VAL_CONF, imgsz=IMG_SIZE,
+            device=EVAL_DEVICE, batch=len(chunk), verbose=False,
+        )
+        for image_path, result in zip(chunk, results):
+            labels = ground_truth_label(labels_dir / f"{image_path.stem}.txt", class_names)
+            truth = "violation" if POSITIVE_CLASS in labels else "compliant"
+            target_scores = [
+                float(box.conf)
+                for box in result.boxes
+                if model.names[int(box.cls)] == target_class
+            ]
+            score = max(target_scores) if target_scores else 0.0
+            rows.append(
+                ScoredImage(image=str(image_path.relative_to(ROOT)), truth=truth, score=score)
+            )
     return rows
-
-
-def zero_shot_examples(split: str = "test", n: int = 8) -> list[dict]:
-    """What the unmodified, pretrained COCO model calls a handful of test
-    images. COCO has no `head` or `helmet` class, so it cannot produce the
-    positive class at any threshold -- this just shows what it reaches for
-    instead (see README Step 4 and the vision_api_inspection notebook)."""
-    base = YOLO("yolo11n.pt")
-    images_dir = DATASET_DIR / split / "images"
-    sample = sorted(images_dir.glob("*"))[:n]
-    examples = []
-    for image_path in sample:
-        result = base.predict(str(image_path), conf=0.25, device=DEVICE, verbose=False)[0]
-        calls = sorted({base.names[int(b.cls)] for b in result.boxes})
-        examples.append({"image": image_path.name, "coco_calls": calls})
-    return examples
 
 
 def per_class_metrics(metrics, class_names: list[str]) -> list[dict]:
@@ -430,6 +521,23 @@ def per_class_metrics(metrics, class_names: list[str]) -> list[dict]:
     return rows
 
 
+def detection_confusion_matrix(metrics, class_names: list[str]) -> dict | None:
+    """Box-level confusion matrix from the test-split evaluation: which class
+    the model confuses with which (e.g. a bare head read as a helmet), plus
+    'background' for missed objects and false detections. Ultralytics stores
+    it as matrix[predicted, true]. Returns None if this Ultralytics version
+    does not expose it on the returned metrics object."""
+    matrix = getattr(getattr(metrics, "confusion_matrix", None), "matrix", None)
+    if matrix is None:
+        print("  (this Ultralytics version did not expose the confusion matrix; "
+              "see runs/test_eval/confusion_matrix.png instead)")
+        return None
+    return {
+        "labels": list(class_names) + ["background"],
+        "matrix_predicted_by_true": [[int(v) for v in row] for row in matrix.tolist()],
+    }
+
+
 def main() -> None:
     load_api_key()  # fail fast, with a clear message, if the key is missing
     dataset_dir = download_dataset()
@@ -441,16 +549,24 @@ def main() -> None:
             f"{class_names}. Update POSITIVE_CLASS above."
         )
 
-    finetuned, run_dir = finetune(data_yaml)
-
     WEIGHTS_DIR.mkdir(exist_ok=True)
     best_weights = WEIGHTS_DIR / "best.pt"
-    shutil.copy(run_dir / "weights" / "best.pt", best_weights)
-    print(f"Committed weights to {best_weights}")
+    if best_weights.exists():
+        print(
+            f"Found existing weights at {best_weights}, skipping training.\n"
+            f"  Delete this file (or the whole weights/ folder) first if you "
+            f"changed something and want a fresh retrain."
+        )
+        finetuned = YOLO(best_weights)
+    else:
+        finetuned, run_dir = finetune(data_yaml)
+        shutil.copy(run_dir / "weights" / "best.pt", best_weights)
+        print(f"Committed weights to {best_weights}")
 
+    # ---- Detection metrics on the test split (README Step 5) ---------------
     print("Evaluating on the test split ...")
     test_metrics = finetuned.val(
-        data=str(data_yaml), split="test", device=DEVICE,
+        data=str(data_yaml), split="test", imgsz=IMG_SIZE, conf=VAL_CONF, device=EVAL_DEVICE,
         project=str(RUNS_DIR), name="test_eval", exist_ok=True,
     )
     overall_metrics = {
@@ -460,22 +576,60 @@ def main() -> None:
         "mAP50_95": test_metrics.results_dict.get("metrics/mAP50-95(B)"),
     }
     per_class = per_class_metrics(test_metrics, class_names)
+    det_confusion = detection_confusion_matrix(test_metrics, class_names)
 
-    print("Scoring the test split for the cost model ...")
-    rows = score_split(finetuned, class_names, split="test")
+    # ---- Per-snapshot scores: finetuned model and COCO zero-shot -----------
+    print("Scoring the test split with the finetuned model ...")
+    rows = score_split(finetuned, class_names, target_class=POSITIVE_CLASS)
 
-    print("Checking what the zero-shot COCO model calls instead ...")
-    zero_shot = zero_shot_examples()
+    print("Scoring the test split with the pretrained COCO model, zero-shot ...")
+    # COCO has no `head` or `helmet` class. Its closest available signal is
+    # `person`, so the zero-shot baseline flags a snapshot when it sees a person.
+    coco_rows = score_split(YOLO(MODEL_CHECKPOINT), class_names, target_class="person")
 
+    # ---- Cost sweep and the chosen operating point (README Steps 6-7) ------
     print("Sweeping the confidence threshold ...")
     single_threshold_sweep = [three_way_cost(rows, c, c) for c in CONF_GRID]
-    ranked = rank_two_threshold_designs(rows)
-    best = ranked[0]
+    best = rank_two_threshold_designs(rows)[0]
     single_best = best_single_threshold(rows)
     everything = human_checks_everything(rows)
     nothing = do_nothing()
     capacity = review_capacity(best["review_share"])
+    coco_best = best_single_threshold(coco_rows)
 
+    # ---- Finetuned vs both baselines, same test split (README Step 4) ------
+    head_ap50 = next((r["AP50"] for r in per_class if r["class"] == POSITIVE_CLASS), None)
+    baselines = [
+        {
+            "model": f"Finetuned {MODEL_CHECKPOINT}",
+            "head_AP50": head_ap50,
+            **image_level_metrics(rows, single_best["high"]),
+            "cost_per_1000": single_best["cost"],
+        },
+        {
+            "model": "Pretrained COCO, zero-shot ('person' as proxy)",
+            "head_AP50": 0.0,  # COCO has no head class: it cannot produce one
+            **image_level_metrics(coco_rows, coco_best["high"]),
+            "cost_per_1000": coco_best["cost"],
+        },
+        {
+            "model": "Trivial: predict nothing (= majority class 'compliant')",
+            "head_AP50": 0.0,
+            **image_level_metrics(rows, 1.01),  # no score reaches 1.01: nothing flagged
+            "cost_per_1000": nothing["cost"],
+        },
+    ]
+
+    print("Testing how sensitive the choice is to the assumptions ...")
+    sensitivity = sensitivity_table(rows)
+
+    print("\nFinetuned model vs baselines (test split, per snapshot, model deciding alone):")
+    for b in baselines:
+        print(
+            f"  {b['model'][:55]:<55} head AP50 {b['head_AP50'] or 0:.3f} | "
+            f"P {b['precision']:.2f} R {b['recall']:.2f} Acc {b['accuracy']:.2f} | "
+            f"EUR {b['cost_per_1000']:,.2f} / 1,000"
+        )
     print(f"\nChosen operating point: ESCALATE >= {best['low']}, FAIL >= {best['high']}")
     print(f"  EUR {best['cost']:,.2f} / 1,000 snapshots, {best['review_share']:.1%} reviewed")
     print(f"  model-alone best single cut: EUR {single_best['cost']:,.2f} (cut {single_best['high']})")
@@ -485,26 +639,29 @@ def main() -> None:
         f"  review load: {capacity['reviews_per_day']:.0f} reviews/day, "
         f"needs {capacity['officers_needed']:.2f} safety officer(s)"
     )
+    print("\nSensitivity (one assumption moved at a time):")
+    for s in sensitivity:
+        print(
+            f"  {s['assumption']:<19} {s['value']:<9.4g} band [{s['low']}, {s['high']}) "
+            f"3-way EUR {s['three_way_cost']:>8,.2f} | alone {s['model_alone_cost']:>8,.2f} | "
+            f"all-human {s['officer_checks_everything_cost']:>8,.2f} | "
+            f"nothing {s['do_nothing_cost']:>9,.2f}"
+        )
 
     ARTIFACTS_DIR.mkdir(exist_ok=True)
     artifact = {
         "dataset": {"workspace": WORKSPACE, "project": PROJECT, "version": VERSION},
         "classes": class_names,
         "positive_class": POSITIVE_CLASS,
-        "device_used_for_training": DEVICE,
+        "training": {
+            "device": DEVICE, "model_checkpoint": MODEL_CHECKPOINT, "epochs": EPOCHS,
+            "imgsz": IMG_SIZE, "patience": PATIENCE, "seed": SEED,
+        },
         "model_checkpoint": MODEL_CHECKPOINT,
         "overall_metrics": overall_metrics,
         "per_class_metrics": per_class,
-        "baselines": {
-            "zero_shot_coco_examples": zero_shot,
-            "zero_shot_note": (
-                "COCO has no 'head' or 'helmet' class, so the pretrained model "
-                "scores 0 on the positive class at every threshold: in this cost "
-                "model that is mathematically identical to the predict-nothing "
-                "baseline below."
-            ),
-            "predict_nothing": nothing,
-        },
+        "detection_confusion_matrix": det_confusion,
+        "baselines": baselines,
         "cost_matrix": {
             "cost_fn": COST_FN,
             "cost_fp": COST_FP,
@@ -524,6 +681,7 @@ def main() -> None:
             "do_nothing": nothing,
         },
         "review_capacity": capacity,
+        "sensitivity": sensitivity,
         "test_rows": [row.__dict__ for row in rows],
     }
     (ARTIFACTS_DIR / "results.json").write_text(json.dumps(artifact, indent=2))

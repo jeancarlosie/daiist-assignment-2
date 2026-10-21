@@ -1,0 +1,4287 @@
+{
+  "dataset": {
+    "workspace": "joseph-nelson",
+    "project": "hard-hat-workers",
+    "version": 10
+  },
+  "classes": [
+    "head",
+    "helmet",
+    "person"
+  ],
+  "positive_class": "head",
+  "training": {
+    "device": "mps",
+    "model_checkpoint": "yolo11n.pt",
+    "epochs": 25,
+    "imgsz": 416,
+    "patience": 15,
+    "seed": 0
+  },
+  "model_checkpoint": "yolo11n.pt",
+  "overall_metrics": {
+    "precision": 0.9586041052076028,
+    "recall": 0.6079141695333384,
+    "mAP50": 0.6519177705860363,
+    "mAP50_95": 0.44840380712011946
+  },
+  "per_class_metrics": [
+    {
+      "class": "head",
+      "precision": 0.9304528383401002,
+      "recall": 0.9022038567493113,
+      "AP50": 0.9548151831490419,
+      "AP50_95": 0.6589133068322295
+    },
+    {
+      "class": "helmet",
+      "precision": 0.9453594772827079,
+      "recall": 0.9215386518507039,
+      "AP50": 0.967727236352728,
+      "AP50_95": 0.6668368042183886
+    },
+    {
+      "class": "person",
+      "precision": 1.0,
+      "recall": 0.0,
+      "AP50": 0.03321089225633891,
+      "AP50_95": 0.019461310309740347
+    }
+  ],
+  "detection_confusion_matrix": {
+    "labels": [
+      "head",
+      "helmet",
+      "person",
+      "background"
+    ],
+    "matrix_predicted_by_true": [
+      [
+        677,
+        61,
+        0,
+        967
+      ],
+      [
+        45,
+        1829,
+        1,
+        2126
+      ],
+      [
+        0,
+        1,
+        48,
+        1742
+      ],
+      [
+        4,
+        24,
+        15,
+        0
+      ]
+    ]
+  },
+  "baselines": [
+    {
+      "model": "Finetuned yolo11n.pt",
+      "head_AP50": 0.9548151831490419,
+      "cut": 0.06,
+      "tp": 133,
+      "fp": 35,
+      "fn": 7,
+      "tn": 531,
+      "precision": 0.7916666666666666,
+      "recall": 0.95,
+      "accuracy": 0.9405099150141643,
+      "cost_per_1000": 308.08303886925796
+    },
+    {
+      "model": "Pretrained COCO, zero-shot ('person' as proxy)",
+      "head_AP50": 0.0,
+      "cut": 0.72,
+      "tp": 137,
+      "fp": 460,
+      "fn": 3,
+      "tn": 106,
+      "precision": 0.22948073701842547,
+      "recall": 0.9785714285714285,
+      "accuracy": 0.34419263456090654,
+      "cost_per_1000": 1665.1627965673902
+    },
+    {
+      "model": "Trivial: predict nothing (= majority class 'compliant')",
+      "head_AP50": 0.0,
+      "cut": 1.01,
+      "tp": 0,
+      "fp": 0,
+      "fn": 140,
+      "tn": 566,
+      "precision": 0.0,
+      "recall": 0.0,
+      "accuracy": 0.8016997167138811,
+      "cost_per_1000": 3750.0
+    }
+  ],
+  "cost_matrix": {
+    "cost_fn": 37.5,
+    "cost_fp": 2.1666666666666665,
+    "cost_review": 0.35750000000000004,
+    "base_rate": 0.1,
+    "safety_officer_recall": 0.97,
+    "safety_officer_specificity": 0.95,
+    "avg_injury_cost_eur": 75000.0,
+    "p_injury_if_missed": 0.0005
+  },
+  "cost_sweep_single_threshold": [
+    {
+      "low": 0.02,
+      "high": 0.02,
+      "fn": 4.285714285714286,
+      "fp": 104.94699646643109,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 388.09944472488644
+    },
+    {
+      "low": 0.04,
+      "high": 0.04,
+      "fn": 4.285714285714286,
+      "fp": 73.14487632508833,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 319.19485108531046
+    },
+    {
+      "low": 0.06,
+      "high": 0.06,
+      "fn": 5.0,
+      "fp": 55.65371024734983,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 308.08303886925796
+    },
+    {
+      "low": 0.08,
+      "high": 0.08,
+      "fn": 5.714285714285714,
+      "fp": 46.113074204947,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 314.19737506309946
+    },
+    {
+      "low": 0.1,
+      "high": 0.1,
+      "fn": 6.428571428571428,
+      "fp": 39.75265017667844,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 327.2021706208985
+    },
+    {
+      "low": 0.12,
+      "high": 0.12,
+      "fn": 6.428571428571428,
+      "fp": 34.98233215547703,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 316.8664815749621
+    },
+    {
+      "low": 0.14,
+      "high": 0.14,
+      "fn": 8.571428571428571,
+      "fp": 33.3922261484099,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 393.7783947501262
+    },
+    {
+      "low": 0.16,
+      "high": 0.16,
+      "fn": 8.571428571428571,
+      "fp": 33.3922261484099,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 393.7783947501262
+    },
+    {
+      "low": 0.18,
+      "high": 0.18,
+      "fn": 9.285714285714286,
+      "fp": 31.80212014134276,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 417.1188793538617
+    },
+    {
+      "low": 0.2,
+      "high": 0.2,
+      "fn": 9.285714285714286,
+      "fp": 28.621908127208478,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 410.22841998990407
+    },
+    {
+      "low": 0.22,
+      "high": 0.22,
+      "fn": 10.714285714285714,
+      "fp": 23.85159010600707,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 453.46415951539626
+    },
+    {
+      "low": 0.24,
+      "high": 0.24,
+      "fn": 10.714285714285714,
+      "fp": 22.261484098939928,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 450.0189298334175
+    },
+    {
+      "low": 0.26,
+      "high": 0.26,
+      "fn": 12.142857142857142,
+      "fp": 19.081272084805654,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 496.6998990408884
+    },
+    {
+      "low": 0.28,
+      "high": 0.28,
+      "fn": 12.142857142857142,
+      "fp": 17.491166077738516,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 493.2546693589096
+    },
+    {
+      "low": 0.3,
+      "high": 0.3,
+      "fn": 12.857142857142856,
+      "fp": 17.491166077738516,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 520.040383644624
+    },
+    {
+      "low": 0.32,
+      "high": 0.32,
+      "fn": 12.857142857142856,
+      "fp": 15.90106007067138,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 516.5951539626451
+    },
+    {
+      "low": 0.34,
+      "high": 0.34,
+      "fn": 13.571428571428571,
+      "fp": 15.90106007067138,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 543.3808682483594
+    },
+    {
+      "low": 0.36,
+      "high": 0.36,
+      "fn": 13.571428571428571,
+      "fp": 14.310954063604239,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 539.9356385663806
+    },
+    {
+      "low": 0.38,
+      "high": 0.38,
+      "fn": 13.571428571428571,
+      "fp": 14.310954063604239,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 539.9356385663806
+    },
+    {
+      "low": 0.4,
+      "high": 0.4,
+      "fn": 13.571428571428571,
+      "fp": 12.720848056537102,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 536.4904088844019
+    },
+    {
+      "low": 0.42,
+      "high": 0.42,
+      "fn": 13.571428571428571,
+      "fp": 11.130742049469964,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 533.045179202423
+    },
+    {
+      "low": 0.44,
+      "high": 0.44,
+      "fn": 14.285714285714285,
+      "fp": 11.130742049469964,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 559.8308934881372
+    },
+    {
+      "low": 0.46,
+      "high": 0.46,
+      "fn": 15.0,
+      "fp": 11.130742049469964,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 586.6166077738516
+    },
+    {
+      "low": 0.48,
+      "high": 0.48,
+      "fn": 15.0,
+      "fp": 11.130742049469964,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 586.6166077738516
+    },
+    {
+      "low": 0.5,
+      "high": 0.5,
+      "fn": 15.0,
+      "fp": 11.130742049469964,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 586.6166077738516
+    },
+    {
+      "low": 0.52,
+      "high": 0.52,
+      "fn": 15.0,
+      "fp": 9.540636042402827,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 583.1713780918728
+    },
+    {
+      "low": 0.54,
+      "high": 0.54,
+      "fn": 15.714285714285714,
+      "fp": 9.540636042402827,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 609.9570923775871
+    },
+    {
+      "low": 0.56,
+      "high": 0.56,
+      "fn": 15.714285714285714,
+      "fp": 9.540636042402827,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 609.9570923775871
+    },
+    {
+      "low": 0.58,
+      "high": 0.58,
+      "fn": 17.142857142857142,
+      "fp": 9.540636042402827,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 663.5285209490157
+    },
+    {
+      "low": 0.6,
+      "high": 0.6,
+      "fn": 17.142857142857142,
+      "fp": 7.95053003533569,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 660.0832912670369
+    },
+    {
+      "low": 0.62,
+      "high": 0.62,
+      "fn": 18.571428571428573,
+      "fp": 7.95053003533569,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 713.6547198384654
+    },
+    {
+      "low": 0.64,
+      "high": 0.64,
+      "fn": 18.571428571428573,
+      "fp": 7.95053003533569,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 713.6547198384654
+    },
+    {
+      "low": 0.66,
+      "high": 0.66,
+      "fn": 20.0,
+      "fp": 7.95053003533569,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 767.226148409894
+    },
+    {
+      "low": 0.68,
+      "high": 0.68,
+      "fn": 20.0,
+      "fp": 7.95053003533569,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 767.226148409894
+    },
+    {
+      "low": 0.7,
+      "high": 0.7,
+      "fn": 21.428571428571427,
+      "fp": 7.95053003533569,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 820.7975769813225
+    },
+    {
+      "low": 0.72,
+      "high": 0.72,
+      "fn": 23.57142857142857,
+      "fp": 6.360424028268551,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 897.7094901564865
+    },
+    {
+      "low": 0.74,
+      "high": 0.74,
+      "fn": 25.71428571428571,
+      "fp": 6.360424028268551,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 978.0666330136294
+    },
+    {
+      "low": 0.76,
+      "high": 0.76,
+      "fn": 30.0,
+      "fp": 6.360424028268551,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 1138.7809187279152
+    },
+    {
+      "low": 0.78,
+      "high": 0.78,
+      "fn": 32.142857142857146,
+      "fp": 6.360424028268551,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 1219.138061585058
+    },
+    {
+      "low": 0.8,
+      "high": 0.8,
+      "fn": 34.285714285714285,
+      "fp": 4.770318021201414,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 1296.049974760222
+    },
+    {
+      "low": 0.82,
+      "high": 0.82,
+      "fn": 40.714285714285715,
+      "fp": 4.770318021201414,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 1537.1214033316505
+    },
+    {
+      "low": 0.84,
+      "high": 0.84,
+      "fn": 50.71428571428571,
+      "fp": 1.5901060070671378,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 1905.2309439676928
+    },
+    {
+      "low": 0.86,
+      "high": 0.86,
+      "fn": 63.57142857142857,
+      "fp": 0.0,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 2383.9285714285716
+    },
+    {
+      "low": 0.88,
+      "high": 0.88,
+      "fn": 82.14285714285714,
+      "fp": 0.0,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 3080.3571428571427
+    },
+    {
+      "low": 0.9,
+      "high": 0.9,
+      "fn": 94.28571428571428,
+      "fp": 0.0,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 3535.7142857142853
+    },
+    {
+      "low": 0.92,
+      "high": 0.92,
+      "fn": 99.28571428571429,
+      "fp": 0.0,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 3723.214285714286
+    },
+    {
+      "low": 0.94,
+      "high": 0.94,
+      "fn": 100.0,
+      "fp": 0.0,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 3750.0
+    },
+    {
+      "low": 0.96,
+      "high": 0.96,
+      "fn": 100.0,
+      "fp": 0.0,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 3750.0
+    },
+    {
+      "low": 0.98,
+      "high": 0.98,
+      "fn": 100.0,
+      "fp": 0.0,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 3750.0
+    }
+  ],
+  "chosen_operating_point": {
+    "low": 0.04,
+    "high": 0.52,
+    "fn": 4.607142857142858,
+    "fp": 12.720848056537106,
+    "reviews": 74.31852599697123,
+    "review_share": 0.07431852599697124,
+    "cost": 226.89856764260477
+  },
+  "comparison": {
+    "three_way": {
+      "low": 0.04,
+      "high": 0.52,
+      "fn": 4.607142857142858,
+      "fp": 12.720848056537106,
+      "reviews": 74.31852599697123,
+      "review_share": 0.07431852599697124,
+      "cost": 226.89856764260477
+    },
+    "model_alone": {
+      "low": 0.06,
+      "high": 0.06,
+      "fn": 5.0,
+      "fp": 55.65371024734983,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 308.08303886925796
+    },
+    "officer_checks_everything": {
+      "low": 0.0,
+      "high": 1.000000001,
+      "fn": 3.0000000000000027,
+      "fp": 45.00000000000004,
+      "reviews": 1000.0,
+      "review_share": 1.0,
+      "cost": 567.5000000000002
+    },
+    "do_nothing": {
+      "low": null,
+      "high": null,
+      "fn": 100.0,
+      "fp": 0.0,
+      "reviews": 0.0,
+      "review_share": 0.0,
+      "cost": 3750.0
+    }
+  },
+  "review_capacity": {
+    "snapshots_per_day": 1500,
+    "reviews_per_day": 111.47778899545686,
+    "officer_hours_per_day": 1.3934723624432108,
+    "officers_needed": 0.13934723624432108
+  },
+  "sensitivity": [
+    {
+      "assumption": "p_injury_if_missed",
+      "value": 5e-05,
+      "low": 0.12,
+      "high": 0.6,
+      "three_way_cost": 58.96132004038365,
+      "review_share": 0.03774608783442706,
+      "model_alone_cost": 75.00946491670872,
+      "officer_checks_everything_cost": 466.25000000000017,
+      "do_nothing_cost": 375.0
+    },
+    {
+      "assumption": "p_injury_if_missed",
+      "value": 0.000125,
+      "low": 0.06,
+      "high": 0.6,
+      "three_way_cost": 94.07912985865727,
+      "review_share": 0.05984603735487128,
+      "model_alone_cost": 136.06291014639072,
+      "officer_checks_everything_cost": 483.12500000000017,
+      "do_nothing_cost": 937.5
+    },
+    {
+      "assumption": "p_injury_if_missed",
+      "value": 0.00025,
+      "low": 0.04,
+      "high": 0.6,
+      "three_way_cost": 139.7815623422514,
+      "review_share": 0.07805148914689551,
+      "model_alone_cost": 196.33076728924783,
+      "officer_checks_everything_cost": 511.2500000000002,
+      "do_nothing_cost": 1875.0
+    },
+    {
+      "assumption": "p_injury_if_missed",
+      "value": 0.0005,
+      "low": 0.04,
+      "high": 0.52,
+      "three_way_cost": 226.89856764260477,
+      "review_share": 0.07431852599697124,
+      "model_alone_cost": 308.08303886925796,
+      "officer_checks_everything_cost": 567.5000000000002,
+      "do_nothing_cost": 3750.0
+    },
+    {
+      "assumption": "p_injury_if_missed",
+      "value": 0.001,
+      "low": 0.04,
+      "high": 0.42,
+      "three_way_cost": 398.6459300858152,
+      "review_share": 0.07129984856133266,
+      "model_alone_cost": 479.9091367995961,
+      "officer_checks_everything_cost": 680.0000000000003,
+      "do_nothing_cost": 7500.0
+    },
+    {
+      "assumption": "p_injury_if_missed",
+      "value": 0.002,
+      "low": 0.04,
+      "high": 0.42,
+      "three_way_cost": 740.9673586572438,
+      "review_share": 0.07129984856133266,
+      "model_alone_cost": 801.3377082281676,
+      "officer_checks_everything_cost": 905.0000000000005,
+      "do_nothing_cost": 15000.0
+    },
+    {
+      "assumption": "base_rate",
+      "value": 0.02,
+      "low": 0.12,
+      "high": 0.84,
+      "three_way_cost": 82.03436984687869,
+      "review_share": 0.04521756688541141,
+      "model_alone_cost": 128.04602052835267,
+      "officer_checks_everything_cost": 486.16666666666686,
+      "do_nothing_cost": 750.0
+    },
+    {
+      "assumption": "base_rate",
+      "value": 0.05,
+      "low": 0.04,
+      "high": 0.6,
+      "three_way_cost": 140.12756183745586,
+      "review_share": 0.07524482584553256,
+      "model_alone_cost": 200.54160356722193,
+      "officer_checks_everything_cost": 516.6666666666669,
+      "do_nothing_cost": 1875.0
+    },
+    {
+      "assumption": "base_rate",
+      "value": 0.1,
+      "low": 0.04,
+      "high": 0.52,
+      "three_way_cost": 226.89856764260477,
+      "review_share": 0.07431852599697124,
+      "model_alone_cost": 308.08303886925796,
+      "officer_checks_everything_cost": 567.5000000000002,
+      "do_nothing_cost": 3750.0
+    },
+    {
+      "assumption": "base_rate",
+      "value": 0.2,
+      "low": 0.04,
+      "high": 0.42,
+      "three_way_cost": 396.07614420326433,
+      "review_share": 0.07369510348308936,
+      "model_alone_cost": 462.3001850917045,
+      "officer_checks_everything_cost": 669.166666666667,
+      "do_nothing_cost": 7500.0
+    },
+    {
+      "assumption": "base_rate",
+      "value": 0.4,
+      "low": 0.04,
+      "high": 0.12,
+      "three_way_cost": 717.9459111559819,
+      "review_share": 0.03401312468450278,
+      "model_alone_cost": 748.5108531044928,
+      "officer_checks_everything_cost": 872.5000000000005,
+      "do_nothing_cost": 15000.0
+    }
+  ],
+  "test_rows": [
+    {
+      "image": "dataset/test/images/005298_jpg.rf.a45f45b9d3abc292b3d0e53ff944adfc.jpg",
+      "truth": "compliant",
+      "score": 0.2139429748058319
+    },
+    {
+      "image": "dataset/test/images/005299_jpg.rf.8f9fff2eb7a015a006adde59fab8a087.jpg",
+      "truth": "compliant",
+      "score": 0.030815839767456055
+    },
+    {
+      "image": "dataset/test/images/005300_jpg.rf.cd33c9b7a1193fc737ec0028fcd74f6f.jpg",
+      "truth": "violation",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005301_jpg.rf.b7666b8a9fd634ff5f4f696b33d28826.jpg",
+      "truth": "violation",
+      "score": 0.861603856086731
+    },
+    {
+      "image": "dataset/test/images/005302_jpg.rf.be56368950eedcaebb2cd80bfdba59a1.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005303_jpg.rf.3d32f0671214557596bb04022c82efda.jpg",
+      "truth": "compliant",
+      "score": 0.11931539326906204
+    },
+    {
+      "image": "dataset/test/images/005304_jpg.rf.7ae5827b61a9e3123ae9fc427e502f55.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005305_jpg.rf.7fc95ce3d7738fd69a0f45f92ce7edc8.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005306_jpg.rf.23ed005d1abe16bce8047e8fb74a3fe7.jpg",
+      "truth": "compliant",
+      "score": 0.045577190816402435
+    },
+    {
+      "image": "dataset/test/images/005307_jpg.rf.92f2b88b5b94de0a993d2d1b5c22f65d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005308_jpg.rf.ce315526cf33850bfde89d52bc346acf.jpg",
+      "truth": "violation",
+      "score": 0.2003334015607834
+    },
+    {
+      "image": "dataset/test/images/005309_jpg.rf.4c2c8f4957b9bd2fcf7ff86fc59b02c7.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005310_jpg.rf.a18992617abba976419438859295836a.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005311_jpg.rf.2fff341b8687ca870401851ab81b769f.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005312_jpg.rf.621472b730c42580842e55756c242733.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005313_jpg.rf.a4e5e97a798aa13cd10bcd801142ec28.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005314_jpg.rf.4ffcce043b015c71473820d91fdf5f21.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005315_jpg.rf.67aacc1e212a2a2aa30d20abdcfc907e.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005316_jpg.rf.15d850dca867f5a7412a026c587a5415.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005317_jpg.rf.a3844d15e4dded50f3847ec197fffec4.jpg",
+      "truth": "compliant",
+      "score": 0.018940892070531845
+    },
+    {
+      "image": "dataset/test/images/005318_jpg.rf.ae464d4a58236aa84f9bf0376d588b9c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005319_jpg.rf.2bc4a11b9de28fd8fb09a2c97c76ef9b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005320_jpg.rf.184413c7615aa6be44a2fad45c629464.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005321_jpg.rf.3db40ef70c17d5d57cd302cfb1c43691.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005322_jpg.rf.e7cfa92cf0fd704120a0554b01e30ebc.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005323_jpg.rf.62ef94edd68aeaf64ba01a1f0ff0b793.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005324_jpg.rf.db7876c6ae4b6fe8a4e7102dd8cd2ea0.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005325_jpg.rf.7d86681fe6de7b7475bfa3c781db4655.jpg",
+      "truth": "violation",
+      "score": 0.8875649571418762
+    },
+    {
+      "image": "dataset/test/images/005326_jpg.rf.48899419ace51fdfbc0707781e35896b.jpg",
+      "truth": "compliant",
+      "score": 0.014011661522090435
+    },
+    {
+      "image": "dataset/test/images/005327_jpg.rf.5ac32eedfdb3421afa85e22bfa5be2f2.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005328_jpg.rf.0b2c72bf998d69d12455ec054e2c1656.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005329_jpg.rf.51dcc7b25919e42118d4c5abfecb882a.jpg",
+      "truth": "compliant",
+      "score": 0.10886181890964508
+    },
+    {
+      "image": "dataset/test/images/005330_jpg.rf.7c0e3c1ac2127f61b8995d7079fca849.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005331_jpg.rf.c24a722e8cf8fea41bdc6a9f72f3ca32.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005332_jpg.rf.52c78ecf318f0989bceacf4192e17529.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005333_jpg.rf.1ab59c1b5a54ac9821f59b0fba7d7a06.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005334_jpg.rf.1dae99dabe5b4a44d08b05820b756780.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005335_jpg.rf.86921b482d8f76c0a4ce437eae0dd9ff.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005336_jpg.rf.a9a987aface03870611f94de99fe084f.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005337_jpg.rf.879a4124039e9834338fe9809a15ecd6.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005338_jpg.rf.d39daafba2866bf30371e3585ccd2c7b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005339_jpg.rf.7af1c16f25a817f2828be6c57375c740.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005340_jpg.rf.f57845968b9c7454811b9f5c7292a7d9.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005341_jpg.rf.0f27c110d906061952154600e10abf90.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005342_jpg.rf.04c2bbfb71c496c51344a6c1cd36cae6.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005343_jpg.rf.51497dd7f91a9ee880b5988a21a8c57a.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005344_jpg.rf.7ba8ed60ed31b40b36a84b6f46612efa.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005345_jpg.rf.73de3c53ea4bbe98e2a9e1cc9e42c22b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005346_jpg.rf.24def406c9045c04c0e78855a9fe6c7b.jpg",
+      "truth": "violation",
+      "score": 0.1377812922000885
+    },
+    {
+      "image": "dataset/test/images/005347_jpg.rf.7c90fbb66575d92dd409c1c9cbfa4e6c.jpg",
+      "truth": "compliant",
+      "score": 0.0441034659743309
+    },
+    {
+      "image": "dataset/test/images/005348_jpg.rf.46b812b19f7b717b5c1449b3a98937ec.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005349_jpg.rf.84cbb3991b5bff15120d5a5a4ba1f484.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005350_jpg.rf.f7b899e1160b8de5f1f5a470c2fbff4b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005351_jpg.rf.41838d205f29fc90bff4c39cdcb82357.jpg",
+      "truth": "compliant",
+      "score": 0.01899908296763897
+    },
+    {
+      "image": "dataset/test/images/005352_jpg.rf.4f60924dbb7c623ed5664354a4741c83.jpg",
+      "truth": "compliant",
+      "score": 0.025691037997603416
+    },
+    {
+      "image": "dataset/test/images/005353_jpg.rf.cf396bf6ec58272357b3c1d484315c7c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005354_jpg.rf.cb6d571df93de336596df7978d7648a1.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005355_jpg.rf.9028709d8ca83f8b1458ee542c2863c6.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005356_jpg.rf.7ac53ceba2924999d77b2389c3706f3b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005357_jpg.rf.979724759796208b15de72492721ff8d.jpg",
+      "truth": "violation",
+      "score": 0.8586243391036987
+    },
+    {
+      "image": "dataset/test/images/005358_jpg.rf.ec4108cc058d7c43de9f486f192dc7e6.jpg",
+      "truth": "violation",
+      "score": 0.7579389214515686
+    },
+    {
+      "image": "dataset/test/images/005359_jpg.rf.a9a5a70368d88aae5bfdd58ee135d478.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005360_jpg.rf.894462b44db9175c5de990298365b5b5.jpg",
+      "truth": "violation",
+      "score": 0.7521905899047852
+    },
+    {
+      "image": "dataset/test/images/005361_jpg.rf.2c2a665a278f618ab55c87fa2b563c17.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005362_jpg.rf.f6dd67301affe761f0f3894c0a14a978.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005363_jpg.rf.3712585d7b706f2f3c88de067c7f323c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005364_jpg.rf.a2e2b9f97508bf7ff50863549c83c87f.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005365_jpg.rf.ea71abb926a640a3fd40f488d2e17ed7.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005366_jpg.rf.cb50ff7ac989947de683253f05ee011e.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005367_jpg.rf.dc985cf2189104056a438eb1f1949796.jpg",
+      "truth": "violation",
+      "score": 0.9318290948867798
+    },
+    {
+      "image": "dataset/test/images/005368_jpg.rf.a6b4d277efa33c2bcbf53ddc5ea7d455.jpg",
+      "truth": "compliant",
+      "score": 0.01092914491891861
+    },
+    {
+      "image": "dataset/test/images/005369_jpg.rf.ba6ddcfb7d744e020bd1a01132a4f8ab.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005370_jpg.rf.819be5b382e5e58f1cfb05f2b537112b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005371_jpg.rf.e44545d78f4d6eb03e3febf648350b22.jpg",
+      "truth": "violation",
+      "score": 0.7885919809341431
+    },
+    {
+      "image": "dataset/test/images/005372_jpg.rf.e9578cae3b11dfe9cd4467f31a507f03.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005373_jpg.rf.5776f7f3b7777b4aef96370a5c964169.jpg",
+      "truth": "compliant",
+      "score": 0.037256620824337006
+    },
+    {
+      "image": "dataset/test/images/005374_jpg.rf.4dff2afd31faee4d50f6a27c358af286.jpg",
+      "truth": "compliant",
+      "score": 0.16856637597084045
+    },
+    {
+      "image": "dataset/test/images/005375_jpg.rf.ff484fa3c71fbea1a3b6783bce3e99e8.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005376_jpg.rf.a40700549c50160284002961e82432e0.jpg",
+      "truth": "violation",
+      "score": 0.43621572852134705
+    },
+    {
+      "image": "dataset/test/images/005377_jpg.rf.a5cc3fb430a76c5ef408dd7e8808856f.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005378_jpg.rf.50dfae676b24bc599892b8fc9cb88c6d.jpg",
+      "truth": "violation",
+      "score": 0.5663099884986877
+    },
+    {
+      "image": "dataset/test/images/005379_jpg.rf.d1cf7fe79d3946b19f92983da3ca346c.jpg",
+      "truth": "violation",
+      "score": 0.8326547741889954
+    },
+    {
+      "image": "dataset/test/images/005380_jpg.rf.d2546ea92ec22f6e9c55fd5de3543dff.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005381_jpg.rf.1118a2d8689f0896c6117d3b82aec70b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005382_jpg.rf.9a1259cc65020d7f3342bb2c62205591.jpg",
+      "truth": "compliant",
+      "score": 0.8245319724082947
+    },
+    {
+      "image": "dataset/test/images/005383_jpg.rf.89324270f7d56bb34fff93d64510e239.jpg",
+      "truth": "violation",
+      "score": 0.8485150933265686
+    },
+    {
+      "image": "dataset/test/images/005384_jpg.rf.f28cf6cf38d728d5cbc0905216f8ab95.jpg",
+      "truth": "compliant",
+      "score": 0.2235730141401291
+    },
+    {
+      "image": "dataset/test/images/005385_jpg.rf.996d60b90fed394a52ecbdefcc6d8049.jpg",
+      "truth": "violation",
+      "score": 0.9094418287277222
+    },
+    {
+      "image": "dataset/test/images/005386_jpg.rf.a0c29b152ba7ff26a5799ea9491b3735.jpg",
+      "truth": "violation",
+      "score": 0.913703441619873
+    },
+    {
+      "image": "dataset/test/images/005387_jpg.rf.f7c802bc7de9d62e343c1286d98630f1.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005388_jpg.rf.61e38d3eef94e8de9687460e1ca4d60a.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005389_jpg.rf.b46d3073006591fe9f0d4fd44a963755.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005390_jpg.rf.18553e376c03aa9f63be865368035936.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005391_jpg.rf.fb129799e84452f591b9502ccba8f082.jpg",
+      "truth": "violation",
+      "score": 0.8655974864959717
+    },
+    {
+      "image": "dataset/test/images/005392_jpg.rf.7de9df864be69c3558231eaab319f613.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005393_jpg.rf.7772d0d7f3db7eaa864a43ff47d01435.jpg",
+      "truth": "compliant",
+      "score": 0.02159781940281391
+    },
+    {
+      "image": "dataset/test/images/005394_jpg.rf.170b9993f5315dabb7edf9fa5ac76520.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005395_jpg.rf.7d5ebe30231588e3692fe718b0fd139b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005396_jpg.rf.8cb2a78c0ae3aa2bd07710f7649a5f8e.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005397_jpg.rf.6dd6222cdc146427c6464ba4579cf6cd.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005398_jpg.rf.d2cbc15115ba0729fc4c6551212d2bdc.jpg",
+      "truth": "violation",
+      "score": 0.8369013667106628
+    },
+    {
+      "image": "dataset/test/images/005399_jpg.rf.8033709293816bee2c9cf941b9e9c025.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005400_jpg.rf.83c627b9675dface2c2cc6220140c934.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005401_jpg.rf.91ca68e758d10d0597b60c0e8242241f.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005402_jpg.rf.6c5350c07d0a7635f6e639fdf63481ae.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005403_jpg.rf.7669161ead70d92790e43083978e8b70.jpg",
+      "truth": "compliant",
+      "score": 0.0123171117156744
+    },
+    {
+      "image": "dataset/test/images/005404_jpg.rf.b46318cd3178a2cf9608908fab25c561.jpg",
+      "truth": "violation",
+      "score": 0.8698469400405884
+    },
+    {
+      "image": "dataset/test/images/005405_jpg.rf.465ccca0edd4dbb350953be77a4b9110.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005406_jpg.rf.b6e36fd23624bac5d3fbaa77d3f63f57.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005407_jpg.rf.fea05ebe6e0625e8aea73873fe06aec0.jpg",
+      "truth": "violation",
+      "score": 0.834123969078064
+    },
+    {
+      "image": "dataset/test/images/005408_jpg.rf.54d6d3ac2eb6252642d195f1688fb82e.jpg",
+      "truth": "compliant",
+      "score": 0.07824195921421051
+    },
+    {
+      "image": "dataset/test/images/005409_jpg.rf.1d29cbc5f09918c805947d5beefff346.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005410_jpg.rf.08c4ca3d744769e0e31170b469513216.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005411_jpg.rf.31545f04b03c8e0d34f5d7c1145e2fd4.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005412_jpg.rf.d767c8477e38316fb2617a3b8ccc6179.jpg",
+      "truth": "violation",
+      "score": 0.8541478514671326
+    },
+    {
+      "image": "dataset/test/images/005413_jpg.rf.e24bde861da2719aa91fcee328983663.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005414_jpg.rf.51d667a0190b407ddfa1e31610d60f6b.jpg",
+      "truth": "violation",
+      "score": 0.8292421698570251
+    },
+    {
+      "image": "dataset/test/images/005415_jpg.rf.f7acad0341edc641eb6ceaedbc270dca.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005416_jpg.rf.b734eeceb3b43867dd01633f7e33d4f8.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005417_jpg.rf.11171a0b952168b3a082dbf38ca0f180.jpg",
+      "truth": "violation",
+      "score": 0.9084240198135376
+    },
+    {
+      "image": "dataset/test/images/005418_jpg.rf.2841621740523f3d8cb42ce45e0a5ccd.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005419_jpg.rf.10c7f2f4520c71766a5750c5d91d1c54.jpg",
+      "truth": "compliant",
+      "score": 0.07032851874828339
+    },
+    {
+      "image": "dataset/test/images/005420_jpg.rf.0509d33a04258b33f8b1ff6c42e4cbf9.jpg",
+      "truth": "violation",
+      "score": 0.888235330581665
+    },
+    {
+      "image": "dataset/test/images/005421_jpg.rf.f7ac40d57e40f0e95d2faf6678cfac00.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005422_jpg.rf.652bf51d495c03ae50cc64dcbf6ee67b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005423_jpg.rf.57cad57cc5b6cdd4c597781a08714c99.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005424_jpg.rf.2302c75923f6c13875172fb75f21bf03.jpg",
+      "truth": "violation",
+      "score": 0.8643342852592468
+    },
+    {
+      "image": "dataset/test/images/005425_jpg.rf.a1560faa5ba4d638902df28358958357.jpg",
+      "truth": "compliant",
+      "score": 0.3444489538669586
+    },
+    {
+      "image": "dataset/test/images/005426_jpg.rf.b3c4352cbeea0e9799cce9e30d5d759f.jpg",
+      "truth": "violation",
+      "score": 0.8799487948417664
+    },
+    {
+      "image": "dataset/test/images/005427_jpg.rf.8689cac4661be55e1df8974f6addea0b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005428_jpg.rf.48ff1c978f7538529dde6d1538317823.jpg",
+      "truth": "compliant",
+      "score": 0.8407725691795349
+    },
+    {
+      "image": "dataset/test/images/005429_jpg.rf.40c48a381b63bc40229f3b3176fd9bd7.jpg",
+      "truth": "violation",
+      "score": 0.723645806312561
+    },
+    {
+      "image": "dataset/test/images/005430_jpg.rf.624b72369bf23fcebdf3c9eccac32293.jpg",
+      "truth": "violation",
+      "score": 0.802553117275238
+    },
+    {
+      "image": "dataset/test/images/005431_jpg.rf.cc95c06f112a729c39e9ba6b712cf1be.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005432_jpg.rf.2413c73be13d18fd6ce718626fb89f14.jpg",
+      "truth": "compliant",
+      "score": 0.07819338142871857
+    },
+    {
+      "image": "dataset/test/images/005433_jpg.rf.774fa6bd22b96946d24d0ef4376d164e.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005434_jpg.rf.208dfb454e9f17b00ffd8a03d446f3ad.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005435_jpg.rf.bee586d08a401fa423038f1cc7ac83c7.jpg",
+      "truth": "violation",
+      "score": 0.2541489899158478
+    },
+    {
+      "image": "dataset/test/images/005436_jpg.rf.2da0d7991e7ec319ac14d3a407334ed2.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005437_jpg.rf.67be75aa77c29ebd8a321606c0e696c6.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005438_jpg.rf.3169a7bc85d979870fba51b60fda31e0.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005439_jpg.rf.9db534ce5d2a8db8f05759aeed8eb7ae.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005440_jpg.rf.25a19f523eabed744b9984298b5a62f4.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005441_jpg.rf.07965956c4f5badfc717b82c80c1dae0.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005442_jpg.rf.a827d556a963365d7d5533002e1f1790.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005443_jpg.rf.e7e8e5f3278cbba6c8863dd433425d32.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005444_jpg.rf.d69f0cfc3376a0062a21704374e113f3.jpg",
+      "truth": "compliant",
+      "score": 0.028371665626764297
+    },
+    {
+      "image": "dataset/test/images/005445_jpg.rf.c525d8b931479c4b979cdeb0c111294f.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005446_jpg.rf.5c1df95606a0137ce9fd0d8dc5553684.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005447_jpg.rf.37fa0a8597a4de09aa670ab81fb51e84.jpg",
+      "truth": "violation",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005448_jpg.rf.c6633b1ecc6f16f4049927bcbef76236.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005449_jpg.rf.f780cda5cbb822782eea90d3fe3515ad.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005450_jpg.rf.bfbcf589dd3396c6568366de9bda5880.jpg",
+      "truth": "violation",
+      "score": 0.8170958757400513
+    },
+    {
+      "image": "dataset/test/images/005451_jpg.rf.5feac604717fdd07f9b7eb0fac11fa91.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005452_jpg.rf.b591fe651665c759a5d6f43b203bac6d.jpg",
+      "truth": "compliant",
+      "score": 0.3905327022075653
+    },
+    {
+      "image": "dataset/test/images/005453_jpg.rf.409ba06edf8a81b0304a9bc9019d5905.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005454_jpg.rf.2d3e5aa26efc68c1131e854f785b7799.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005455_jpg.rf.c54c41c47cc6a0363859a6e41c6f4157.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005456_jpg.rf.acb37f447ddc038475f9b4ee4ca55ed3.jpg",
+      "truth": "violation",
+      "score": 0.8897073268890381
+    },
+    {
+      "image": "dataset/test/images/005457_jpg.rf.68712f604ac3bb19371024142c01baea.jpg",
+      "truth": "violation",
+      "score": 0.8621802926063538
+    },
+    {
+      "image": "dataset/test/images/005458_jpg.rf.00652f687a031ca491fe9f07bc34fdcc.jpg",
+      "truth": "violation",
+      "score": 0.6929383277893066
+    },
+    {
+      "image": "dataset/test/images/005459_jpg.rf.15bcca80f8cc224c9b5a4600b9614f66.jpg",
+      "truth": "compliant",
+      "score": 0.05973612889647484
+    },
+    {
+      "image": "dataset/test/images/005460_jpg.rf.ac2b04090f2f31806abf967ffdbe2d14.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005461_jpg.rf.f3f5933245a07210e92879ac7f971336.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005462_jpg.rf.6591e3bbe4f644fb5f7151a3cdb9c27a.jpg",
+      "truth": "violation",
+      "score": 0.8529484272003174
+    },
+    {
+      "image": "dataset/test/images/005463_jpg.rf.60912d1859f0ee9629d92f09e619e497.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005464_jpg.rf.32c9ad680485dc5a931b26b23093730d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005465_jpg.rf.04f8797bd4d136611ad2c6193ed6c9c8.jpg",
+      "truth": "violation",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005466_jpg.rf.8110950d860a3c1691fc54fe5986e82b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005467_jpg.rf.f4cdcfe0ef0e0c70d516d7b2d8d088f1.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005468_jpg.rf.e65abfee6ef825a33bbb2e07ca9fa488.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005469_jpg.rf.96efd07edd14a7834896162369745342.jpg",
+      "truth": "compliant",
+      "score": 0.08229678869247437
+    },
+    {
+      "image": "dataset/test/images/005470_jpg.rf.b1a0cf35362b328be63c8173a4106337.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005471_jpg.rf.36de5e0ff981ef6ea8643089c6ec6faa.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005472_jpg.rf.84a453fedb135c2604154c342e0965f5.jpg",
+      "truth": "violation",
+      "score": 0.8611754179000854
+    },
+    {
+      "image": "dataset/test/images/005473_jpg.rf.c40f4ca8d3b312bbdbd92f5025cfa2d1.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005474_jpg.rf.7e35ec1d5fe6b21583ad99e005841d74.jpg",
+      "truth": "compliant",
+      "score": 0.01674715243279934
+    },
+    {
+      "image": "dataset/test/images/005475_jpg.rf.942128e60d4bfbf0978eb7f1f03e1c81.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005476_jpg.rf.f5f47dbe0770eac01f6d7f7cc98ebbc6.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005477_jpg.rf.fd8411ca57a5f553cdb55058c42b5ebb.jpg",
+      "truth": "violation",
+      "score": 0.862659215927124
+    },
+    {
+      "image": "dataset/test/images/005478_jpg.rf.851193c2ff780dbd7e8cc0d0da15252c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005479_jpg.rf.18f51d0cc491d64f5d6b16cd2750fbb0.jpg",
+      "truth": "compliant",
+      "score": 0.09186948835849762
+    },
+    {
+      "image": "dataset/test/images/005480_jpg.rf.488d4e3604bf8479805014bced94983b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005481_jpg.rf.ceceb808fc0d289fe6f6d5389b0c88a0.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005482_jpg.rf.a2eaedcd05c7b805d469e320967c613e.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005483_jpg.rf.03ae88a97e2a8d60cbb9ee0afe228f15.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005484_jpg.rf.7d1785e707a48484225767203e0cfe8b.jpg",
+      "truth": "violation",
+      "score": 0.8417429327964783
+    },
+    {
+      "image": "dataset/test/images/005485_jpg.rf.6f8ae09b47f9e42f55c3e1df551cbee2.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005486_jpg.rf.55574e0deb036b268357786d19ce84c4.jpg",
+      "truth": "violation",
+      "score": 0.725222647190094
+    },
+    {
+      "image": "dataset/test/images/005487_jpg.rf.232631a241b719eb64ccc98daf310e32.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005488_jpg.rf.5e3c2b4584d145a14809f6666efa1e14.jpg",
+      "truth": "violation",
+      "score": 0.8027125000953674
+    },
+    {
+      "image": "dataset/test/images/005489_jpg.rf.b229d102648b9123be7c381d4a639d04.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005490_jpg.rf.c29e45fd1f507f0108471acb0642b42c.jpg",
+      "truth": "violation",
+      "score": 0.878466010093689
+    },
+    {
+      "image": "dataset/test/images/005491_jpg.rf.aa8641c45b2ebde748d48127718b7409.jpg",
+      "truth": "compliant",
+      "score": 0.02116464637219906
+    },
+    {
+      "image": "dataset/test/images/005492_jpg.rf.1d8030a8f6b3b1fb8b2ecf4fa4042651.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005493_jpg.rf.6a936eed17b27fdaabdb8e4b3266c05a.jpg",
+      "truth": "violation",
+      "score": 0.2854481339454651
+    },
+    {
+      "image": "dataset/test/images/005494_jpg.rf.f5b3a5d813a90c3ba7feb01f419d1a4d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005495_jpg.rf.a8cdfd598a6cfb328cbeca7033159b0c.jpg",
+      "truth": "violation",
+      "score": 0.860412061214447
+    },
+    {
+      "image": "dataset/test/images/005496_jpg.rf.9d00dbf781358e953b5934401a213c7c.jpg",
+      "truth": "violation",
+      "score": 0.8675565123558044
+    },
+    {
+      "image": "dataset/test/images/005497_jpg.rf.bf1557cb1d8338ed2e09ac459261e009.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005498_jpg.rf.eccfdfdd7afe9d9a9e08181ac6ef8f8c.jpg",
+      "truth": "compliant",
+      "score": 0.022927239537239075
+    },
+    {
+      "image": "dataset/test/images/005499_jpg.rf.fc0784ff25f49b3e3d8087f2fb4151bb.jpg",
+      "truth": "violation",
+      "score": 0.6194801926612854
+    },
+    {
+      "image": "dataset/test/images/005500_jpg.rf.982a8e4faf4d609aeb2d17432a3d41f8.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005501_jpg.rf.1015427e442e710992eced5dd12b42b6.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005502_jpg.rf.317b79ebdac3370d2be440ea76dce7a4.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005503_jpg.rf.550fc7c6864d32f0953d4e8ee0af72f0.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005504_jpg.rf.8d3384e8b4e6c0f7e31feb8560a4acea.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005505_jpg.rf.1831159c23e05a952718366b04875849.jpg",
+      "truth": "compliant",
+      "score": 0.019345197826623917
+    },
+    {
+      "image": "dataset/test/images/005506_jpg.rf.5c257d45fd7a7681cf3da2e20ca4a563.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005507_jpg.rf.9416c599bd8004be571eafeee0e9baaa.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005508_jpg.rf.1119ab0cb788e6839f7d4db185f4fb09.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005509_jpg.rf.47a0e2452b7c7917c2a63b83cd411120.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005510_jpg.rf.5eec68f579b8d176cbaedfd2497612d1.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005511_jpg.rf.225bb88ddac72f13a89162c5f533177c.jpg",
+      "truth": "compliant",
+      "score": 0.0550466813147068
+    },
+    {
+      "image": "dataset/test/images/005512_jpg.rf.23bda84d5b0b4330de8dc920a834e8de.jpg",
+      "truth": "violation",
+      "score": 0.7727596163749695
+    },
+    {
+      "image": "dataset/test/images/005513_jpg.rf.f75c5b92dcb0f8c7165f14ed1cfab3ef.jpg",
+      "truth": "compliant",
+      "score": 0.014410360716283321
+    },
+    {
+      "image": "dataset/test/images/005514_jpg.rf.aa24e15440fdf36d3f6d65c75a9884c2.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005515_jpg.rf.9a8aa780e6b6916f9a0a944156f7deb6.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005516_jpg.rf.dd46229d0801a072d2ffe5c5cd330839.jpg",
+      "truth": "violation",
+      "score": 0.8794958591461182
+    },
+    {
+      "image": "dataset/test/images/005517_jpg.rf.9adaed5dce83adbd5e71c901d8ec5b8d.jpg",
+      "truth": "violation",
+      "score": 0.456238329410553
+    },
+    {
+      "image": "dataset/test/images/005518_jpg.rf.02f7ca2ec93767a51f81e7875fb5bb27.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005519_jpg.rf.98e89f4458b0b50468ec4ba1a686f022.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005520_jpg.rf.c711ee18b31f22fe1b98f3049b946ed1.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005521_jpg.rf.713508e61f75b148bea4589ceb7d0d9f.jpg",
+      "truth": "compliant",
+      "score": 0.029002375900745392
+    },
+    {
+      "image": "dataset/test/images/005522_jpg.rf.ef45e1462cf7854766f5a2adec35063d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005523_jpg.rf.97ef80477739dd7e1cef7e1963c06a5a.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005524_jpg.rf.a813328de7d6a6bb75e6d9c73d7f4027.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005525_jpg.rf.793f3a28a4006cba84e898cf86b3a264.jpg",
+      "truth": "compliant",
+      "score": 0.18258972465991974
+    },
+    {
+      "image": "dataset/test/images/005526_jpg.rf.4f0dc6cd9dc3f12b01bc352ac4857376.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005527_jpg.rf.0eac097a850856b8f4705e0ed3698089.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005528_jpg.rf.f3f86e4f9e37659b7854919e0b02f0a3.jpg",
+      "truth": "compliant",
+      "score": 0.30058175325393677
+    },
+    {
+      "image": "dataset/test/images/005529_jpg.rf.1442055c8317687e93b8b74e28ffcc5a.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005530_jpg.rf.8f079b95bbdc28014a7ac13ed62ca63b.jpg",
+      "truth": "compliant",
+      "score": 0.1909911185503006
+    },
+    {
+      "image": "dataset/test/images/005531_jpg.rf.cb07ad7b52b2d2a04b3cc913bd058a2c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005532_jpg.rf.a3f5f277a509b1e22a516396fa8cf432.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005533_jpg.rf.f286d6c337a223fa17e5aa6b1a142bd6.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005534_jpg.rf.e828157b6d612a3cd9c297bff57a42a0.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005535_jpg.rf.2fb2fd9005e138daebeed20afbba6702.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005536_jpg.rf.b2eb7b10676f06526a560d0cf215aee5.jpg",
+      "truth": "violation",
+      "score": 0.8909876942634583
+    },
+    {
+      "image": "dataset/test/images/005537_jpg.rf.7b976e88a695d7727eca76fff24d71d7.jpg",
+      "truth": "compliant",
+      "score": 0.032344069331884384
+    },
+    {
+      "image": "dataset/test/images/005538_jpg.rf.fc64bfc521190362ee14c86772a2eb43.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005539_jpg.rf.129c15311041083d271678aaa60ea494.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005540_jpg.rf.30dcddde08f13f401e065eb2d158c0e1.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005541_jpg.rf.1569a7cb2882a6c57f776d68a2fe5aa8.jpg",
+      "truth": "violation",
+      "score": 0.8572909235954285
+    },
+    {
+      "image": "dataset/test/images/005542_jpg.rf.5309d0a530a9d6e0f9a45d75800eba7b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005543_jpg.rf.cd7cace45ebfb1e5c266dc2e3ccbc625.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005544_jpg.rf.6fdd6f6876cb5cfa2796e09d48ca90ac.jpg",
+      "truth": "violation",
+      "score": 0.8610608577728271
+    },
+    {
+      "image": "dataset/test/images/005545_jpg.rf.ad779ade44356117deca620958535475.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005546_jpg.rf.e266f73e474c13ab51aed3903386ebae.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005547_jpg.rf.1b29293439a1f5a471a4648646e75ca1.jpg",
+      "truth": "compliant",
+      "score": 0.07121359556913376
+    },
+    {
+      "image": "dataset/test/images/005548_jpg.rf.51127412875f0b0ac8d7443a59751351.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005549_jpg.rf.ae1d152d426731ffaa3937407c2cc702.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005550_jpg.rf.6b4fd4cff1b3749601af2b079105d215.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005551_jpg.rf.190ddb252d344f3e4d0113d0123e5ca7.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005552_jpg.rf.d1eb21d0520f33b7c429d492eff89ce2.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005553_jpg.rf.9bab406475bed545c229483b41e1e702.jpg",
+      "truth": "compliant",
+      "score": 0.016128771007061005
+    },
+    {
+      "image": "dataset/test/images/005554_jpg.rf.860fdf84d459434c3003813d3584d989.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005555_jpg.rf.3bfdabda06186126a5a9783f0ea77f08.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005556_jpg.rf.5b44aa1caace2a06288f9ebb14b7761d.jpg",
+      "truth": "compliant",
+      "score": 0.028777915984392166
+    },
+    {
+      "image": "dataset/test/images/005557_jpg.rf.b6575fe2e7ee9e0ba09c0f611c6e0e59.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005558_jpg.rf.394cbdb08bf52ad130bb628ccaa8b53c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005559_jpg.rf.8cef74dfb2d33ba399d1c039f39e0974.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005560_jpg.rf.d6e2b80c544a2eb50a43991cecdefe40.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005561_jpg.rf.6c7d36727727b7f5dd4b223a2b88a2d2.jpg",
+      "truth": "compliant",
+      "score": 0.013463917188346386
+    },
+    {
+      "image": "dataset/test/images/005562_jpg.rf.c8ca00acac17f6b4aae9021430b35e39.jpg",
+      "truth": "violation",
+      "score": 0.7571107149124146
+    },
+    {
+      "image": "dataset/test/images/005563_jpg.rf.58fe51f191ed04516e6ded3a797b41cd.jpg",
+      "truth": "compliant",
+      "score": 0.252951979637146
+    },
+    {
+      "image": "dataset/test/images/005564_jpg.rf.a3ecd969f84d4506310cad16ba488e85.jpg",
+      "truth": "compliant",
+      "score": 0.20740747451782227
+    },
+    {
+      "image": "dataset/test/images/005565_jpg.rf.3d6cff289f56b8d0eb1c20180c179d55.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005566_jpg.rf.b1907132a0873ce0699de6e8218d33e3.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005567_jpg.rf.ad5df29a19e374e6fe31d151de85f006.jpg",
+      "truth": "violation",
+      "score": 0.8126464486122131
+    },
+    {
+      "image": "dataset/test/images/005568_jpg.rf.b06998c0b2c2a2017fa64e168b34c77d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005569_jpg.rf.9910875b687cde0ff982ec4206148cc1.jpg",
+      "truth": "compliant",
+      "score": 0.02705787867307663
+    },
+    {
+      "image": "dataset/test/images/005570_jpg.rf.66db82fe73e3353ab1c1d2ab773c5c91.jpg",
+      "truth": "violation",
+      "score": 0.8439615964889526
+    },
+    {
+      "image": "dataset/test/images/005571_jpg.rf.b3e357ff025c397ee838eddc117253da.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005572_jpg.rf.4cdad58b71e0c2f7707e30e8d8c942f6.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005573_jpg.rf.df34c78e28e2e29f8e8d1de6805bffe7.jpg",
+      "truth": "violation",
+      "score": 0.906704306602478
+    },
+    {
+      "image": "dataset/test/images/005574_jpg.rf.6c5601355ba51cfecdf1b4abee6da2d0.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005575_jpg.rf.3d8996a93a7d9e144ed8735a5f18c330.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005576_jpg.rf.eb3ba7f3704f005cc3b4d989a10e6573.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005577_jpg.rf.d5c02d99a4be189ad47db6f1a36c3464.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005578_jpg.rf.61853015cfb194391c2ab0277a5811b5.jpg",
+      "truth": "violation",
+      "score": 0.32833796739578247
+    },
+    {
+      "image": "dataset/test/images/005579_jpg.rf.5d7b22a9884694e54299f4fa8661ec7a.jpg",
+      "truth": "violation",
+      "score": 0.8880528211593628
+    },
+    {
+      "image": "dataset/test/images/005580_jpg.rf.bb8a52985449f085415af992e199949f.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005581_jpg.rf.8d6c8cd8de17749d88bb4f1f2256844e.jpg",
+      "truth": "violation",
+      "score": 0.8852239847183228
+    },
+    {
+      "image": "dataset/test/images/005582_jpg.rf.a7ab074dae8f3bc5b14fca69103b892e.jpg",
+      "truth": "compliant",
+      "score": 0.7800112962722778
+    },
+    {
+      "image": "dataset/test/images/005583_jpg.rf.a22b2415e7784f5353992985edddf46d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005584_jpg.rf.ee5eacfdccc3a0e6627fefdb54979212.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005585_jpg.rf.fd04ceb2f86b386663d9cf0a47279019.jpg",
+      "truth": "violation",
+      "score": 0.8565824627876282
+    },
+    {
+      "image": "dataset/test/images/005586_jpg.rf.7a8b89ade1c4cefdc9c53eb796bd4b54.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005587_jpg.rf.00ab5befcaac78a73d4439e167553d61.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005588_jpg.rf.4407a94da6c6d5b0c7455731181bd352.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005589_jpg.rf.bef4613a7e749e716538eea7be727b24.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005590_jpg.rf.bdb4a13798117751ad23b057ccea0638.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005591_jpg.rf.8c3a04b248da3eda8873f0e5920e43aa.jpg",
+      "truth": "violation",
+      "score": 0.867831289768219
+    },
+    {
+      "image": "dataset/test/images/005592_jpg.rf.ad88c28c219531c1dc802e637ddc49c5.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005593_jpg.rf.0365ee5e37aac72af46f964161f7efc1.jpg",
+      "truth": "violation",
+      "score": 0.8839547038078308
+    },
+    {
+      "image": "dataset/test/images/005594_jpg.rf.44426c9a6cdcd6064ea8c5b7809dd39f.jpg",
+      "truth": "violation",
+      "score": 0.8418241143226624
+    },
+    {
+      "image": "dataset/test/images/005595_jpg.rf.083f1c666ebb9d402b519cd45cb58ee0.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005596_jpg.rf.c6af9c34fe26931baa5a7713dbd1a39e.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005597_jpg.rf.2a48a6980f85fc6d8d747cdf7ca841ba.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005598_jpg.rf.bc8cba6da625aa1247ccab5d8eb51626.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005599_jpg.rf.33ae5721a3865cb0d171aa04f7575869.jpg",
+      "truth": "violation",
+      "score": 0.7987880110740662
+    },
+    {
+      "image": "dataset/test/images/005600_jpg.rf.4c6a74b6c3c9cca699ff8c45bd18332b.jpg",
+      "truth": "violation",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005601_jpg.rf.d22400ba7ad0430933583e0248e76b71.jpg",
+      "truth": "compliant",
+      "score": 0.012160549871623516
+    },
+    {
+      "image": "dataset/test/images/005602_jpg.rf.cd9403df409425c8e80227999059cb68.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005603_jpg.rf.5615f096846761e01dfc9dfa4cd778d2.jpg",
+      "truth": "violation",
+      "score": 0.842617928981781
+    },
+    {
+      "image": "dataset/test/images/005604_jpg.rf.5bc197d140fb41be84aa0ea5b38e0b38.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005605_jpg.rf.5666338d50fc0509fb2000ea3778cfd2.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005606_jpg.rf.69c01dada10f2e428323b3918f77c01c.jpg",
+      "truth": "violation",
+      "score": 0.818665623664856
+    },
+    {
+      "image": "dataset/test/images/005607_jpg.rf.b530d1c73bfdbc2eefbcc1773aac6a2c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005608_jpg.rf.8befa23fc963a1d7dffc82540179736d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005609_jpg.rf.4bb8a58f2d1e4a593bc9de5005afe192.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005610_jpg.rf.d8657fd244338de218ece8dab7a7ac49.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005611_jpg.rf.0a4a06498df958d4e4c9d7955b6227e9.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005612_jpg.rf.f5ce78ef4229a11f3166d8f35a57f464.jpg",
+      "truth": "compliant",
+      "score": 0.7049787044525146
+    },
+    {
+      "image": "dataset/test/images/005613_jpg.rf.9a55825ad598dceb0b75e8a5759e1b1d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005614_jpg.rf.6a85f1c0b5649ea623f032205457d324.jpg",
+      "truth": "compliant",
+      "score": 0.12780530750751495
+    },
+    {
+      "image": "dataset/test/images/005615_jpg.rf.42e85c573f96369176febea00344b7a4.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005616_jpg.rf.35e9f44bb00a44206a0af2cbd06f5995.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005617_jpg.rf.dadde555561df3157caa87435d314ddd.jpg",
+      "truth": "compliant",
+      "score": 0.07522797584533691
+    },
+    {
+      "image": "dataset/test/images/005618_jpg.rf.a70b2c2efa44b5716a73e69589a1b24c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005619_jpg.rf.9475f681ce754db0ab900a09e1fb4adc.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005620_jpg.rf.277a8527cdaa258456f112ef573951bf.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005621_jpg.rf.019ac65a3794080ce969562363810839.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005622_jpg.rf.c76baca78fef611f03f56743a7950ff7.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005623_jpg.rf.19726e065aaefb3ebc14726ac0da633b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005624_jpg.rf.b19e3a2d9991d5fa0901c91024cff172.jpg",
+      "truth": "violation",
+      "score": 0.8174921274185181
+    },
+    {
+      "image": "dataset/test/images/005625_jpg.rf.f08bc567a46d39f6d35807eb66d09b5b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005626_jpg.rf.9a628aba32993a27d95c02532a7efa60.jpg",
+      "truth": "compliant",
+      "score": 0.0818016454577446
+    },
+    {
+      "image": "dataset/test/images/005627_jpg.rf.7b4dac7efcb2589f1634fdd12ee2510b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005628_jpg.rf.fd0e075c41a99f2f0a7827da9d060ca2.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005629_jpg.rf.62852b60bdd8b5f1e774b2b9350b6cf3.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005630_jpg.rf.599cb00a6cb570b0e09b3ab01bf0acbc.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005631_jpg.rf.64a495f5b53dc4ff2ef7bcc5b59619ef.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005632_jpg.rf.9784f9da0a76ee6ff4693d8700349ead.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005633_jpg.rf.75da696871cc701bba6183614074a0c4.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005634_jpg.rf.48ff61ebfadc976bbeae323f33306645.jpg",
+      "truth": "violation",
+      "score": 0.8798360824584961
+    },
+    {
+      "image": "dataset/test/images/005635_jpg.rf.76fbf4d88898dae9e57729b81fe56200.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005636_jpg.rf.fb851e60b50cac49f63803026a463437.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005637_jpg.rf.a98957bc9bb688101cbb2b85a383a87c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005638_jpg.rf.1d86d84af38404f29264ae97348c07f0.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005639_jpg.rf.4783a19b458cb90f8c6204403be8f54d.jpg",
+      "truth": "violation",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005640_jpg.rf.b713913475759659303cb872b3241bd5.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005641_jpg.rf.e6415fbad8868c1a4879e9ed9a1c1e69.jpg",
+      "truth": "violation",
+      "score": 0.8243607878684998
+    },
+    {
+      "image": "dataset/test/images/005642_jpg.rf.f541f2472b5c656357efb173b3acec26.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005643_jpg.rf.a4be0a27d5ffa9501843528818c0a6af.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005644_jpg.rf.99f89b92edab2b7fbc2c5b60131965fa.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005645_jpg.rf.e0ae664b502abc8328c3e2c3fe152a6a.jpg",
+      "truth": "compliant",
+      "score": 0.014623556286096573
+    },
+    {
+      "image": "dataset/test/images/005646_jpg.rf.41a798048e258458a7cd41fe01052b18.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005647_jpg.rf.b3992db8095c16ded7244529b7676914.jpg",
+      "truth": "violation",
+      "score": 0.8258723020553589
+    },
+    {
+      "image": "dataset/test/images/005648_jpg.rf.a80350689778bfc58d7283acda9c190c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005649_jpg.rf.048c7121c9615c005171d0503ca48d98.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005650_jpg.rf.82208f69324c65666106218dc478ad5e.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005651_jpg.rf.120b178b7f5ff004c03e688f8bbea843.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005652_jpg.rf.f8c9d6832239ef7a48ec0936e3c9475a.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005653_jpg.rf.c262fa6b35234792e362f926a658cc28.jpg",
+      "truth": "compliant",
+      "score": 0.04418753460049629
+    },
+    {
+      "image": "dataset/test/images/005654_jpg.rf.b9849b9cf519d8de5c1fdf9eb647afa4.jpg",
+      "truth": "violation",
+      "score": 0.891610324382782
+    },
+    {
+      "image": "dataset/test/images/005655_jpg.rf.28a002733a6b0fabc9f706fcd4de366a.jpg",
+      "truth": "compliant",
+      "score": 0.01881272904574871
+    },
+    {
+      "image": "dataset/test/images/005656_jpg.rf.c3c07bdd037b91dd802056f6056b8fc4.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005657_jpg.rf.c23274d411d87e3e9e3b8ac570b3cb9f.jpg",
+      "truth": "violation",
+      "score": 0.8430790901184082
+    },
+    {
+      "image": "dataset/test/images/005658_jpg.rf.aabe4157b34f788acb7b61625a2eac8c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005659_jpg.rf.3cbd0f6829ca9c568fda6e17d01fbafd.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005660_jpg.rf.91d39c41910a24b793b97be1d296cb18.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005661_jpg.rf.2b989d22e6c31fb4d9a26bc65f703e96.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005662_jpg.rf.d323595371463b46d031bdf42fcf5bb1.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005663_jpg.rf.cb047dbe2faa386c55b81ba269046a46.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005664_jpg.rf.dfc4477800fe3f1598df6a5f3094386e.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005665_jpg.rf.b4259f8cd46936316d8b77b3f888d7b7.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005666_jpg.rf.1670e24f19af007f004033fa46bc4e61.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005667_jpg.rf.870f9529db3bf85195b42eb05a5eb977.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005668_jpg.rf.9d93c4140f41983da68b522fbba7c3f9.jpg",
+      "truth": "compliant",
+      "score": 0.2768658697605133
+    },
+    {
+      "image": "dataset/test/images/005669_jpg.rf.0b6b77d58529f8395bba9e436aaab993.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005670_jpg.rf.8f4131294e0f86c6d4529e308067ff78.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005671_jpg.rf.2651f09ecfe3a50062037dbe326ccbc7.jpg",
+      "truth": "compliant",
+      "score": 0.03176748752593994
+    },
+    {
+      "image": "dataset/test/images/005672_jpg.rf.6dd5149a6ac0f96e3624a3d25958d319.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005673_jpg.rf.d221831cb9118b0ca0080533cf4bf820.jpg",
+      "truth": "violation",
+      "score": 0.7048468589782715
+    },
+    {
+      "image": "dataset/test/images/005674_jpg.rf.f8c1e275be7b47957b9b2857e8fc223c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005675_jpg.rf.84057b90dd5b8b3fad7d2c0480fd48de.jpg",
+      "truth": "violation",
+      "score": 0.775926947593689
+    },
+    {
+      "image": "dataset/test/images/005676_jpg.rf.7f6de956c3fb84acf8782e3bcfc15769.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005677_jpg.rf.eecd55133f4638b33d3fcfd00e86e03b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005678_jpg.rf.7e84ff1ed86f33eeb167cf80a179aedd.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005679_jpg.rf.dae84fb81954029e5517aae83447772e.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005680_jpg.rf.947a3c74b5afa60b4db064ded14bb30b.jpg",
+      "truth": "violation",
+      "score": 0.8667367696762085
+    },
+    {
+      "image": "dataset/test/images/005681_jpg.rf.8f11a9cd40385e8faed3964d1a46ebb8.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005682_jpg.rf.536d1b143a3139b8d7ed8ae9cfd0e657.jpg",
+      "truth": "violation",
+      "score": 0.8801769018173218
+    },
+    {
+      "image": "dataset/test/images/005683_jpg.rf.a6c73544c3583233a19bb720b34392d0.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005684_jpg.rf.ebcf14c24fa682a8938e07e262d96d6f.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005685_jpg.rf.1c3c36fe80e2ca27bd559bcb7599df7b.jpg",
+      "truth": "violation",
+      "score": 0.8299216032028198
+    },
+    {
+      "image": "dataset/test/images/005686_jpg.rf.28ab07bd7d14a24856913ba7fc07b2e0.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005687_jpg.rf.81d21fd2c1bba116a6f69c7ff041266e.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005688_jpg.rf.de93279dfb695877573a32e9b39aed49.jpg",
+      "truth": "compliant",
+      "score": 0.04022939130663872
+    },
+    {
+      "image": "dataset/test/images/005689_jpg.rf.e8d568e6386df0d0126df68f36722a95.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005690_jpg.rf.fa69654ea99591e1f7111f8dd302aa6d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005691_jpg.rf.8f1dce95681f9a591529bda935a3826b.jpg",
+      "truth": "compliant",
+      "score": 0.07304218411445618
+    },
+    {
+      "image": "dataset/test/images/005692_jpg.rf.b0b02ef6f9d6803eb4d374b508630d15.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005693_jpg.rf.edd52a1249c213e0aae26d8a0b4752a7.jpg",
+      "truth": "violation",
+      "score": 0.7483247518539429
+    },
+    {
+      "image": "dataset/test/images/005694_jpg.rf.a9f56c71e3d183619ad31bf24743af96.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005695_jpg.rf.d8923c0222d916fedb78b1a9254baef2.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005696_jpg.rf.58c4bd607ea074221a387e084d332fcf.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005697_jpg.rf.080eb15fce4b91c630770d16a74a5cb5.jpg",
+      "truth": "violation",
+      "score": 0.8854256272315979
+    },
+    {
+      "image": "dataset/test/images/005698_jpg.rf.acc332004f4fd81fffc77c6fbd0f2f07.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005699_jpg.rf.1b33c99d1d34c01c1eed4553ce01484c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005700_jpg.rf.d209e48119f7c3d5777d3b2a1cf892c5.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005701_jpg.rf.7ed1d0987593c43ac63ee59fe530031d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005702_jpg.rf.b63a1a8875751d93b3349b831959df71.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005703_jpg.rf.4b6c76f4744acdec5c87e19f8ad1f7d8.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005704_jpg.rf.991695631055536f4a3919141bd9aa65.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005705_jpg.rf.3c6c6e632701be4ca2dcd77f5de05e7a.jpg",
+      "truth": "violation",
+      "score": 0.8724419474601746
+    },
+    {
+      "image": "dataset/test/images/005706_jpg.rf.f93c5f0ba3da5c2602256cc519eb21fc.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005707_jpg.rf.60b4f0b17f27725f21ac0684cea19a39.jpg",
+      "truth": "compliant",
+      "score": 0.5020971298217773
+    },
+    {
+      "image": "dataset/test/images/005708_jpg.rf.d71c020d70a3ef6bb8fae844a93933e6.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005709_jpg.rf.06bb20bbff10a08fb0c83a40dde212a0.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005710_jpg.rf.82c80dba9a14849d1ec458201107d2cf.jpg",
+      "truth": "violation",
+      "score": 0.8552407026290894
+    },
+    {
+      "image": "dataset/test/images/005711_jpg.rf.8d3a2ed07c73e8457e94b3f9e3103188.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005712_jpg.rf.f29b8c8dcee4f190c500acb29d4e8f2f.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005713_jpg.rf.2cdfddab87c28c4e496d058300aebeb8.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005714_jpg.rf.c10eeb395b8f8254f458693f6300a9a7.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005715_jpg.rf.6022bd68b115f5dc0ab261adab1cbe57.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005716_jpg.rf.636c4d6e8ffb0ff96e76670d520a3dbe.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005717_jpg.rf.7ef31fbee57a699ba4a36aa4d83c74a3.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005718_jpg.rf.18e4c22f4f025ff56511695957751ab4.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005719_jpg.rf.9d2b89a18988f42a04dfbdd523245e46.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005720_jpg.rf.6a3104e3a340eb44cb1da3f46da244e9.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005721_jpg.rf.24a27c7da6eadd07d11888fb3b7692cc.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005722_jpg.rf.e45e83a079f0b5c071d865540c389758.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005723_jpg.rf.60d4f0ded8acbd519f8e431d248aea0a.jpg",
+      "truth": "violation",
+      "score": 0.09577161818742752
+    },
+    {
+      "image": "dataset/test/images/005724_jpg.rf.ad04c594283ea03c24c881a8e3725325.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005725_jpg.rf.fd7f8c5c46517a4c016f89a7ce8aa32d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005726_jpg.rf.840c590c6c149f06d9ab10392e03969f.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005727_jpg.rf.965d45eb21a7ed1dae9acf8a107e7d0a.jpg",
+      "truth": "violation",
+      "score": 0.9036810994148254
+    },
+    {
+      "image": "dataset/test/images/005728_jpg.rf.b3ad175e9297a9174b762dc51c571ad9.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005729_jpg.rf.46f4230e6f64f243b65d395aaaf0a3db.jpg",
+      "truth": "compliant",
+      "score": 0.0453801304101944
+    },
+    {
+      "image": "dataset/test/images/005730_jpg.rf.53ed32c7310a4384f17cbdeb3a201069.jpg",
+      "truth": "violation",
+      "score": 0.25821346044540405
+    },
+    {
+      "image": "dataset/test/images/005731_jpg.rf.43910600e4efb3568cc98a526837676e.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005732_jpg.rf.6be51f8bbb2e591d71535bd69623e5bc.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005733_jpg.rf.ce1917fa8f7f70d562c98feab50e3e4d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005734_jpg.rf.a6ccaaa8574dd182dde2c6b8767cb03f.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005735_jpg.rf.9a54a82bfd66636027809be72c982e75.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005736_jpg.rf.7a38a06bfa843e7c6bdb58e77a28fee5.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005737_jpg.rf.358654e86cf02be1b340ef48a00cff8a.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005738_jpg.rf.09f49a6673da104588b927ff6f94c7ac.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005739_jpg.rf.67b8d5721ea975b99bab99b8cb52bcb1.jpg",
+      "truth": "violation",
+      "score": 0.8281394839286804
+    },
+    {
+      "image": "dataset/test/images/005740_jpg.rf.ed64c25f53cf54f12284c4b37e1d73f9.jpg",
+      "truth": "compliant",
+      "score": 0.04104875773191452
+    },
+    {
+      "image": "dataset/test/images/005741_jpg.rf.6961c9c31e5e3687b0fdb9b7521631da.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005742_jpg.rf.9f634e2411cd258071d2e0fbe25bca33.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005743_jpg.rf.c6e0bb6a07d58eebd91a967b0cb0d31a.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005744_jpg.rf.a49f3848991bc8506aefe79bc8206270.jpg",
+      "truth": "violation",
+      "score": 0.8573834300041199
+    },
+    {
+      "image": "dataset/test/images/005745_jpg.rf.0310be55f57a2a57778053c94dbe3a8a.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005746_jpg.rf.2ed613a9bdd35ab105340b4d6acc7ee9.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005747_jpg.rf.9b27ca55a1af124e20f65e0445a8ac66.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005748_jpg.rf.042562c598bd593987e948ffc124dbf2.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005749_jpg.rf.e100bb222945bfc5c03e03d61e9e55fe.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005750_jpg.rf.7ce227b61c74cc1bc279ddfedde83b93.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005751_jpg.rf.4185207fa452558094c4270492ad7c5a.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005752_jpg.rf.fec61dabe50190733948050495dd2c12.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005753_jpg.rf.ced7d782877970e06a5a6b8f62a0762a.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005754_jpg.rf.76be9280b2b5bcd0207a7a02cb0ef3e6.jpg",
+      "truth": "violation",
+      "score": 0.6571860313415527
+    },
+    {
+      "image": "dataset/test/images/005755_jpg.rf.489f5a430e8a007a1b7d0801af72956f.jpg",
+      "truth": "compliant",
+      "score": 0.023860247805714607
+    },
+    {
+      "image": "dataset/test/images/005756_jpg.rf.ddfe6b4cc082ac0bc9595006e17f6f96.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005757_jpg.rf.a077f757b84b48eb6f53025b7aac617c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005758_jpg.rf.e19f352d6e2ac68c5fb25b75a3dc925b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005759_jpg.rf.07de5ca75383a86e65113f9744dcbe3d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005760_jpg.rf.65ebaf84add55c6e530800b2985e0256.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005761_jpg.rf.d90b0bd8740ccf331af0774cc7e595cf.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005762_jpg.rf.9b5eb1001bff5eb54c0a8d65f9a2c15b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005763_jpg.rf.5d37072ab09177e02cdfac6eb462785b.jpg",
+      "truth": "violation",
+      "score": 0.889025866985321
+    },
+    {
+      "image": "dataset/test/images/005764_jpg.rf.1011a4f0b6968c5ce3f93cf2210733a3.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005765_jpg.rf.3662ca23a4a35cd7f83bad2efe48215b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005766_jpg.rf.6661838a3355523b21cc8bf140b03d5a.jpg",
+      "truth": "compliant",
+      "score": 0.08543101698160172
+    },
+    {
+      "image": "dataset/test/images/005767_jpg.rf.95ee062c53bc861cb03c2e3e8fa0b2cb.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005768_jpg.rf.f8a3cf59174ad5648a0bf3c12f2af6bd.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005769_jpg.rf.18e3a8f7bedd8a770d39faeacf5d7e95.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005770_jpg.rf.c6a465ecf004dd3ec254303e25ddbdf2.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005771_jpg.rf.075d05a283f7a2854b859b7179a767e8.jpg",
+      "truth": "violation",
+      "score": 0.890589714050293
+    },
+    {
+      "image": "dataset/test/images/005772_jpg.rf.7fcae297b91c42fc2b38d6ca3e78213e.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005773_jpg.rf.1f9fa99037e1134a4c9faa44c03f1518.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005774_jpg.rf.d789f2bbdf8101de1a93ff804307c32e.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005775_jpg.rf.e20116d610273a9c798ea10f14d656b5.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005776_jpg.rf.86e873601065c12e5609f5d40964b92f.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005777_jpg.rf.12d479afafc9aa8a0c8643b667d69286.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005778_jpg.rf.2623b8fc3d3d1941f55bf52e23c05dc7.jpg",
+      "truth": "compliant",
+      "score": 0.013350003398954868
+    },
+    {
+      "image": "dataset/test/images/005779_jpg.rf.c7ddccd21e8181d07105d8e3e22a48bb.jpg",
+      "truth": "violation",
+      "score": 0.8751252889633179
+    },
+    {
+      "image": "dataset/test/images/005780_jpg.rf.1842382eab6db444b4b137a3bb8ee016.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005781_jpg.rf.40982c7c2ed512877ac60312c39e4b40.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005782_jpg.rf.c93e212e751cc778dd686159c6a2abd7.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005783_jpg.rf.b0d26f276a1bc1df46aee2477774283d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005784_jpg.rf.6534d7d6058acc5873b3ee6319f47756.jpg",
+      "truth": "violation",
+      "score": 0.7025644183158875
+    },
+    {
+      "image": "dataset/test/images/005785_jpg.rf.923365c1ddff96c1ca49193434200f9a.jpg",
+      "truth": "violation",
+      "score": 0.8415910005569458
+    },
+    {
+      "image": "dataset/test/images/005786_jpg.rf.2cc67887f6368b1dc79f11720b9a8a77.jpg",
+      "truth": "violation",
+      "score": 0.891247034072876
+    },
+    {
+      "image": "dataset/test/images/005787_jpg.rf.46acae8b84c64228c8c9292b48f8bccd.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005788_jpg.rf.084a521cf6cb9c4af315bfa3275ef6d5.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005789_jpg.rf.b5e12ff988b8bb9e303bc1e52692b8b4.jpg",
+      "truth": "violation",
+      "score": 0.8694779276847839
+    },
+    {
+      "image": "dataset/test/images/005790_jpg.rf.a94dd61c9d022e9c33b385bc63c4c8d1.jpg",
+      "truth": "violation",
+      "score": 0.6971539855003357
+    },
+    {
+      "image": "dataset/test/images/005791_jpg.rf.def7f267b5154bc17620455038c68e04.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005792_jpg.rf.c2a0e05cca0d1e27f27c76bd63ac5c22.jpg",
+      "truth": "compliant",
+      "score": 0.022011185064911842
+    },
+    {
+      "image": "dataset/test/images/005793_jpg.rf.b20bd7b88dc10e2f59f9beb99d3c2357.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005794_jpg.rf.4d53941fba304bbc79811b21362cb2de.jpg",
+      "truth": "violation",
+      "score": 0.8946904540061951
+    },
+    {
+      "image": "dataset/test/images/005795_jpg.rf.233bab59db93f0435eb6fdc878f372da.jpg",
+      "truth": "violation",
+      "score": 0.8067773580551147
+    },
+    {
+      "image": "dataset/test/images/005796_jpg.rf.53d3dfd1db86cb201f2137b4c60e4d3d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005797_jpg.rf.a40c48bad6e78c93f097a3055613fc81.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005798_jpg.rf.96d823c6220bab9cc0e3cc124b19702b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005799_jpg.rf.055c975eb21bbeb7a7084595a1442aa8.jpg",
+      "truth": "violation",
+      "score": 0.8163180947303772
+    },
+    {
+      "image": "dataset/test/images/005800_jpg.rf.1e49e818a9d77dbf1ab59337859290b7.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005801_jpg.rf.52a0337b3be56247e60f62085bc2e58e.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005802_jpg.rf.2821030de66b82ea0cb05bb6769cbad4.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005803_jpg.rf.7ed1ecbff7160d37c946115d5ba4ae7b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005804_jpg.rf.88764019a79b18528826aec2964bd528.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005805_jpg.rf.8ae049519bd62a7fee70222dbd63a092.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005806_jpg.rf.e2ad6f98d3a4ab9b693ba7c629a9449b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005807_jpg.rf.3f8e9464345f63f2b905a6a2d8e9d162.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005808_jpg.rf.dcbfea55765732c90128e33f34adb69b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005809_jpg.rf.cb4e87dae1bccaaf8fc147ded381c3fb.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005810_jpg.rf.5365269622cb85e3b77c2fc520933a2a.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005811_jpg.rf.0f788965991f8abbb03d9ab06d29d045.jpg",
+      "truth": "violation",
+      "score": 0.8677727580070496
+    },
+    {
+      "image": "dataset/test/images/005812_jpg.rf.a7d671c7e02df80cac430cb7618207e5.jpg",
+      "truth": "violation",
+      "score": 0.5758662223815918
+    },
+    {
+      "image": "dataset/test/images/005813_jpg.rf.5057da77c3942bcb5cff092e670d2b37.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005814_jpg.rf.fd0e9c31c9305d4559750731a9e0e8e5.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005815_jpg.rf.ce25a679ce33d99259bde59bdd939c06.jpg",
+      "truth": "violation",
+      "score": 0.8363147974014282
+    },
+    {
+      "image": "dataset/test/images/005816_jpg.rf.eaeee50c210e466599e938d0809e1f57.jpg",
+      "truth": "compliant",
+      "score": 0.019670652225613594
+    },
+    {
+      "image": "dataset/test/images/005817_jpg.rf.abcea77ec625c610db307277562bc654.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005818_jpg.rf.52e499ae5ddb44944728f6a8f6e7e722.jpg",
+      "truth": "violation",
+      "score": 0.8727926015853882
+    },
+    {
+      "image": "dataset/test/images/005819_jpg.rf.b13b6ab06ca9b4d8e065f0126a93b1c6.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005820_jpg.rf.bdb5b21a786b431831613e7c8f69a872.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005821_jpg.rf.d0778e889b69d48f22c95180e56c6a76.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005822_jpg.rf.92b0be7212ffac2b7c6e7e1a85e0677a.jpg",
+      "truth": "compliant",
+      "score": 0.01401218120008707
+    },
+    {
+      "image": "dataset/test/images/005823_jpg.rf.2c28538eb7b84591512c50e963fc409d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005824_jpg.rf.3e0a334e9275ca28cac104bf919e7994.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005825_jpg.rf.8607321f6a52deaa21343f18e366309f.jpg",
+      "truth": "violation",
+      "score": 0.7921952605247498
+    },
+    {
+      "image": "dataset/test/images/005826_jpg.rf.1746e2e5d716a77249f39c8c9b32d191.jpg",
+      "truth": "compliant",
+      "score": 0.41703546047210693
+    },
+    {
+      "image": "dataset/test/images/005827_jpg.rf.3f803a6a1b5d481c4698d212b0152f0d.jpg",
+      "truth": "violation",
+      "score": 0.8940624594688416
+    },
+    {
+      "image": "dataset/test/images/005828_jpg.rf.5a34d48d4a6e7510c2a294ee5ac99405.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005829_jpg.rf.92252cb258ac643018cd03a3f140ce16.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005830_jpg.rf.93dc24b1ede2cfdc445486c47d883632.jpg",
+      "truth": "violation",
+      "score": 0.7572422027587891
+    },
+    {
+      "image": "dataset/test/images/005831_jpg.rf.38c2d7c84f0399ff5eeb801313137e04.jpg",
+      "truth": "compliant",
+      "score": 0.5828438401222229
+    },
+    {
+      "image": "dataset/test/images/005832_jpg.rf.c2435d3ea1ff02f7fc494de3b473cf06.jpg",
+      "truth": "violation",
+      "score": 0.8447986245155334
+    },
+    {
+      "image": "dataset/test/images/005833_jpg.rf.469fc624c66343faaaaf6d88fcbd3c79.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005834_jpg.rf.99034822378310026f7da8c54327fe4f.jpg",
+      "truth": "violation",
+      "score": 0.886383056640625
+    },
+    {
+      "image": "dataset/test/images/005835_jpg.rf.4e29ceed455f7c294c5f994653292011.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005836_jpg.rf.b9ffd669a941bbe42fa24fc95ce749d8.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005837_jpg.rf.9540a8474628ab6371d6f3c79d297049.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005838_jpg.rf.c301a3293add53568d1f0275e4ffce83.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005839_jpg.rf.cc145f3ef18ebc62059605c0096baa0d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005840_jpg.rf.8a036dd78476f1496b8c768cecfa84f0.jpg",
+      "truth": "compliant",
+      "score": 0.0246194526553154
+    },
+    {
+      "image": "dataset/test/images/005841_jpg.rf.6d2e803b5f83b0b838fb547ff76a4f09.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005842_jpg.rf.64cd1d268590e3d63cf138f3580f0083.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005843_jpg.rf.64b03b37cb0b97d52257686a4b12580a.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005844_jpg.rf.ce8aa1424abba97ac45e7525d9757004.jpg",
+      "truth": "violation",
+      "score": 0.8569661974906921
+    },
+    {
+      "image": "dataset/test/images/005845_jpg.rf.8c20461243ed7f3b4f5c03992341c21a.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005846_jpg.rf.a1c1292b97c3c5ef417fe6182dbd7e7f.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005847_jpg.rf.6e26955fb946d331d0a25f5f87de0363.jpg",
+      "truth": "violation",
+      "score": 0.830224335193634
+    },
+    {
+      "image": "dataset/test/images/005848_jpg.rf.1138a1e92cc4b635261611f5ccd611d5.jpg",
+      "truth": "violation",
+      "score": 0.7427098751068115
+    },
+    {
+      "image": "dataset/test/images/005849_jpg.rf.61bcc045520ac3c19c9d6d6eb3b5201a.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005850_jpg.rf.6ea053eb658943348008b0c355bf7253.jpg",
+      "truth": "compliant",
+      "score": 0.2199445515871048
+    },
+    {
+      "image": "dataset/test/images/005851_jpg.rf.d7bc19cb7884f1dae7f7b17a4f34d064.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005852_jpg.rf.093337249a2313219827727f2ae8a59d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005853_jpg.rf.17371fc987e9260d0b1210c602692684.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005854_jpg.rf.9624acb32366db7770a119cc282b6a00.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005855_jpg.rf.5fe078e93a070b15b0f825bc5ea855bc.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005856_jpg.rf.94891a98df761c2c8d8ec11af3dc4a53.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005857_jpg.rf.3ce7811d0254c8ca8d8edadc33ea228d.jpg",
+      "truth": "violation",
+      "score": 0.8663501143455505
+    },
+    {
+      "image": "dataset/test/images/005858_jpg.rf.5f657cc3ca67fcfaddfb7d9bfbe44e64.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005859_jpg.rf.7d65d61a472608c6ce26de1c8da247f8.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005860_jpg.rf.1e80be0ccb6a2910b74f5afc38c8c31a.jpg",
+      "truth": "violation",
+      "score": 0.7118231058120728
+    },
+    {
+      "image": "dataset/test/images/005861_jpg.rf.abc1dd341d5af6c157d3b15cae40a12b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005862_jpg.rf.8dcd7c6c23df762055958a7244c6a080.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005863_jpg.rf.27c1a479dccb5aff0cc28747a99babc8.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005864_jpg.rf.eb1980213ecc891f4be3775704a0220d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005865_jpg.rf.0a92fe2a6708df84640456d9cab100d1.jpg",
+      "truth": "violation",
+      "score": 0.839067280292511
+    },
+    {
+      "image": "dataset/test/images/005866_jpg.rf.561661ceef076bb91c19fe04f6acd8ba.jpg",
+      "truth": "compliant",
+      "score": 0.04080658778548241
+    },
+    {
+      "image": "dataset/test/images/005867_jpg.rf.f70f0ee9383c53f3d0c8bb5525305f10.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005868_jpg.rf.c8d8a88e192191fc832b31622bd697e4.jpg",
+      "truth": "compliant",
+      "score": 0.039420872926712036
+    },
+    {
+      "image": "dataset/test/images/005869_jpg.rf.8fae164023bd23cc5ea3657aedd878cf.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005870_jpg.rf.a2437943ad0c37dc407f61abea8bc5ee.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005871_jpg.rf.50e24d8d391df18dd3540612aada4a7b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005872_jpg.rf.3a94ed2e1ce4ea1f8d1c814dc8fbbb61.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005873_jpg.rf.05f6103fa8160a3b0bb8f46559712948.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005874_jpg.rf.092556e78a0edb1d4be06bc04a336ffd.jpg",
+      "truth": "compliant",
+      "score": 0.017464088276028633
+    },
+    {
+      "image": "dataset/test/images/005875_jpg.rf.8624efa9d3bd231a7c837b7a5ee50bc4.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005876_jpg.rf.58e984cb5d651d857198b8cba77dba44.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005877_jpg.rf.385012fde4bccc9d28f4b541cb547af4.jpg",
+      "truth": "violation",
+      "score": 0.8768506050109863
+    },
+    {
+      "image": "dataset/test/images/005878_jpg.rf.11d7d0b7a5ce08049346884628259e03.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005879_jpg.rf.07a546b162d24a68f3d1ced43ed34bb5.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005880_jpg.rf.1beb9482978478625ba50779dda54e16.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005881_jpg.rf.04b1c4654cb9503ad581b0bc5bf63078.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005882_jpg.rf.1c807e8a7929bc10539b79a30e7b5ab2.jpg",
+      "truth": "compliant",
+      "score": 0.11945241689682007
+    },
+    {
+      "image": "dataset/test/images/005883_jpg.rf.3199595d61d965e45f41a5ae05abaaf1.jpg",
+      "truth": "violation",
+      "score": 0.20400141179561615
+    },
+    {
+      "image": "dataset/test/images/005884_jpg.rf.e8287bd58aa23c93b96a737757688aa0.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005885_jpg.rf.a84d0f37f4dff9c2df70125d806a812a.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005886_jpg.rf.ee277aba462e78085efb9fadc14045f2.jpg",
+      "truth": "violation",
+      "score": 0.8241493105888367
+    },
+    {
+      "image": "dataset/test/images/005887_jpg.rf.f91c9a588136639e3e81259c7c3f2eea.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005888_jpg.rf.ff911d8f61bf5c379fe9c63c2cabe2ea.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005889_jpg.rf.b29afdb96e9bf4cee0ec64d40bba887d.jpg",
+      "truth": "compliant",
+      "score": 0.013274780474603176
+    },
+    {
+      "image": "dataset/test/images/005890_jpg.rf.83d47bbe4a98e8670d2287b79fe23139.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005891_jpg.rf.cc0a4f063c1ac4f86e1d7fd0480d48fa.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005892_jpg.rf.12a4255709592337e7c5a1993fca6205.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005893_jpg.rf.dbd7339d706203aa8c9bc7c1c0ce1b63.jpg",
+      "truth": "compliant",
+      "score": 0.026505861431360245
+    },
+    {
+      "image": "dataset/test/images/005894_jpg.rf.9d7055ccd6888a3c0dd5e925d78056d9.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005895_jpg.rf.f99a23665631448502fb7139bf9851ee.jpg",
+      "truth": "compliant",
+      "score": 0.013280471786856651
+    },
+    {
+      "image": "dataset/test/images/005896_jpg.rf.6c313e3fd9c27f5605fd1e36729fe408.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005897_jpg.rf.e5f38fc36913f2ca9b20489bfe75a8a1.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005898_jpg.rf.7465a19b3d634987a7e7155c1c57150c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005899_jpg.rf.b19104d56a6e4af1037db7d438aa9b18.jpg",
+      "truth": "compliant",
+      "score": 0.017334558069705963
+    },
+    {
+      "image": "dataset/test/images/005900_jpg.rf.be490039644a1a8a6de3391705f4bc51.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005901_jpg.rf.923d03fb19362569f19eed2c0e7dd8ec.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005902_jpg.rf.c5a95be3adc01849004a84e8aa22873b.jpg",
+      "truth": "violation",
+      "score": 0.8747838735580444
+    },
+    {
+      "image": "dataset/test/images/005903_jpg.rf.2a3366feed1aa29b93345347ac7e4d74.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005904_jpg.rf.fb772a9a47e987f7bcf294f80b71c3a2.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005905_jpg.rf.d50478eebc0888d02346ddf14d8891c7.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005906_jpg.rf.52518ecfeb1ada9ff0f013b1376714b3.jpg",
+      "truth": "violation",
+      "score": 0.13819365203380585
+    },
+    {
+      "image": "dataset/test/images/005907_jpg.rf.3e67d6d91a7541cbd556cc965e3d1af0.jpg",
+      "truth": "compliant",
+      "score": 0.02821461297571659
+    },
+    {
+      "image": "dataset/test/images/005908_jpg.rf.3a7c45736b8c0c691e079cdf19743692.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005909_jpg.rf.440e49850d13c9f2630cc34594f9118b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005910_jpg.rf.649391c3e392d677ab6f0628ad865534.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005911_jpg.rf.575e7c1c7c4776f06edf15d8d598dda4.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005912_jpg.rf.146c7d1bada5bb88075c072daf69fe15.jpg",
+      "truth": "violation",
+      "score": 0.8825812935829163
+    },
+    {
+      "image": "dataset/test/images/005913_jpg.rf.b3eef6fdeafda1921ad253195023ae83.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005914_jpg.rf.3f49311d73337e49003da9da0ca93786.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005915_jpg.rf.f88343c6ea816c3a23ba0e6b9c70e8a4.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005916_jpg.rf.2caf070fd54c963cff78e53c9433b8ad.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005917_jpg.rf.460c2e402ed2a75ebf77b4642f14bbea.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005918_jpg.rf.748fc2a4c92cbe9917a96308e6cb2b3c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005919_jpg.rf.60b4f588701e67567dd4055b875d8c10.jpg",
+      "truth": "violation",
+      "score": 0.9105851054191589
+    },
+    {
+      "image": "dataset/test/images/005920_jpg.rf.0927d37879bd24328b39a5e3acbb9259.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005921_jpg.rf.d386215d9849befc03bb8fe9f3986ee3.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005922_jpg.rf.b74a4a135352b557f286922634c0a292.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005923_jpg.rf.d2299b9b0d0bc9cd80804c7c5fb74579.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005924_jpg.rf.9756e41ab8e4250c24c4d7505b6d9db0.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005925_jpg.rf.bc2881b19c649a27806bc15d458d0919.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005926_jpg.rf.129418a492a7b876cacb47f243322ca0.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005927_jpg.rf.f67384f3955323ff67b27a0164f86211.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005928_jpg.rf.6b7819aebb65079e7e9f42cffbca5921.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005929_jpg.rf.45564416a2705c3d4064014672278bf3.jpg",
+      "truth": "violation",
+      "score": 0.8207495808601379
+    },
+    {
+      "image": "dataset/test/images/005930_jpg.rf.04db6e19f6785ab1cf2299fe3d6a2a45.jpg",
+      "truth": "violation",
+      "score": 0.8637311458587646
+    },
+    {
+      "image": "dataset/test/images/005931_jpg.rf.e371d0e301a3641bdb57fc1fc688e49d.jpg",
+      "truth": "violation",
+      "score": 0.8456677198410034
+    },
+    {
+      "image": "dataset/test/images/005932_jpg.rf.e1743f655c5ccd1137c6cf69f5755611.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005933_jpg.rf.1801792a0cf019d1e513fb724adda00c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005934_jpg.rf.9b88756f84710c89bc49e4af6bdfbdac.jpg",
+      "truth": "violation",
+      "score": 0.8640475273132324
+    },
+    {
+      "image": "dataset/test/images/005935_jpg.rf.cd18201de8f90aed45667982820a4354.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005936_jpg.rf.d79b45406f450e7a8e3ff5434ed6f090.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005937_jpg.rf.4f5ddf64e017255a83a3a36ca34bf4c1.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005938_jpg.rf.602749e2fb982d0073407b6950e2ac91.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005939_jpg.rf.d65e3ee44a9857375e22e45ab86c0f7e.jpg",
+      "truth": "violation",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005940_jpg.rf.9991deb111e4a4f6a1c5c6556c7e9b04.jpg",
+      "truth": "violation",
+      "score": 0.6159893870353699
+    },
+    {
+      "image": "dataset/test/images/005941_jpg.rf.ee50b65efe5689c49d451c1a93f5c067.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005942_jpg.rf.59e27e092d312105de05d51f25e90610.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005943_jpg.rf.825f7ada87211be00c1c33a721c438a0.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005944_jpg.rf.4bbc2e3d56bbba4bf8f40b83ec9e89f2.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005945_jpg.rf.e8b9ac8d6eba25f433918930497414ba.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005946_jpg.rf.81ae8b8865d600c441109a710210d535.jpg",
+      "truth": "compliant",
+      "score": 0.011278301477432251
+    },
+    {
+      "image": "dataset/test/images/005947_jpg.rf.06a27b190ebd669e5d8a4c1237865fc7.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005948_jpg.rf.0d5b14e1b7929fce4eeb35986021157d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005949_jpg.rf.703023a55839042f9fa2b4c0740fdc85.jpg",
+      "truth": "violation",
+      "score": 0.8449671864509583
+    },
+    {
+      "image": "dataset/test/images/005950_jpg.rf.999f92d5eb71a200b924e081d5356b4b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005951_jpg.rf.5bdfbd685bebc930cbaeec7835801e99.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005952_jpg.rf.dc22eb197e00bea97b1a6fe84ee980d8.jpg",
+      "truth": "violation",
+      "score": 0.5224378705024719
+    },
+    {
+      "image": "dataset/test/images/005953_jpg.rf.8d3b6e9b3ca53f8892e6cdaefb847720.jpg",
+      "truth": "violation",
+      "score": 0.7726038694381714
+    },
+    {
+      "image": "dataset/test/images/005954_jpg.rf.0b31873a0ac49022d12d233d6380516e.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005955_jpg.rf.799a50d76e4510b5bd4d167ba6e0d48f.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005956_jpg.rf.bed84217e3e64602fa7910b8a52e3186.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005957_jpg.rf.b042c5ae3ed7c8f30cd58190b7641f34.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005958_jpg.rf.d00ef184fa98f809c72f5285c523c1f3.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005959_jpg.rf.5c48cf6de1d77a8769ab8a2c226c573c.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005960_jpg.rf.fd2b035367fe42196167d5c203dea02b.jpg",
+      "truth": "compliant",
+      "score": 0.024957329034805298
+    },
+    {
+      "image": "dataset/test/images/005961_jpg.rf.0dabf0e09d6ac952cf627fdca450679f.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005962_jpg.rf.0e8d8f81ceeabef5db5ec8c3d292aeea.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005963_jpg.rf.1859fa289efbc447a5248bce3e44aa16.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005964_jpg.rf.47ca831890328daa56b2e49133b1c78e.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005965_jpg.rf.ab7e502cb1a759dfcd184e6ff5e6be5b.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005966_jpg.rf.4e00e97144336142e57c265f2f0353cc.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005967_jpg.rf.4ee806be286a87940ec81e129674ad31.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005968_jpg.rf.c3bd5685599c4ac108de8970840c3454.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005969_jpg.rf.669a6e6e6b00ed667e38b320fdc26780.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005970_jpg.rf.5bbc609b3618e9cd22c6cce58cf77353.jpg",
+      "truth": "compliant",
+      "score": 0.8376543521881104
+    },
+    {
+      "image": "dataset/test/images/005971_jpg.rf.5bc3aa8f6223846e72102492013431a5.jpg",
+      "truth": "violation",
+      "score": 0.13351432979106903
+    },
+    {
+      "image": "dataset/test/images/005972_jpg.rf.d83097b1e3e82ddf9800aa0fc3b24928.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005973_jpg.rf.4941cfdb4110bbcb384145eec395aee0.jpg",
+      "truth": "compliant",
+      "score": 0.2484687715768814
+    },
+    {
+      "image": "dataset/test/images/005974_jpg.rf.4e713b40d82ec82e494b34fcba6ac4a3.jpg",
+      "truth": "violation",
+      "score": 0.7396470308303833
+    },
+    {
+      "image": "dataset/test/images/005975_jpg.rf.0cbdbe4dc1ea73108f7266b0f57824cc.jpg",
+      "truth": "violation",
+      "score": 0.6454404592514038
+    },
+    {
+      "image": "dataset/test/images/005976_jpg.rf.c0c1b5b03407a542655578fdf09e0975.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005977_jpg.rf.0837f70aec04ac724e76973a8972aeb5.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005978_jpg.rf.5ee290621344d435d8172fc919a7713c.jpg",
+      "truth": "compliant",
+      "score": 0.04587316885590553
+    },
+    {
+      "image": "dataset/test/images/005979_jpg.rf.9881f900c1a5194108254965c8a4f967.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005980_jpg.rf.18f0df688f74a628f1e2ffedb931dc27.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005981_jpg.rf.fd34c7dba255c1504a59ece5f0996903.jpg",
+      "truth": "compliant",
+      "score": 0.04501371830701828
+    },
+    {
+      "image": "dataset/test/images/005982_jpg.rf.af46a4fffaff6c0fe93494a506a36502.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005983_jpg.rf.a0a0ce8432dddc8a9a05cfa5251506f2.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005984_jpg.rf.dc2760f1b476d4550c14e9b1412b5efa.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005985_jpg.rf.779c7727e39a5ee5e8037ca4c0936306.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005986_jpg.rf.91bea98a01a292c24cd6276e85c45a8f.jpg",
+      "truth": "violation",
+      "score": 0.07686825841665268
+    },
+    {
+      "image": "dataset/test/images/005987_jpg.rf.98ba0f98dfc0c7d7e1e8fc81d5e40238.jpg",
+      "truth": "violation",
+      "score": 0.905725359916687
+    },
+    {
+      "image": "dataset/test/images/005988_jpg.rf.068bc9276736defc8cddcc71422ebe95.jpg",
+      "truth": "violation",
+      "score": 0.8207440972328186
+    },
+    {
+      "image": "dataset/test/images/005989_jpg.rf.1b5d661ee2d25e9284dc31b6e333205f.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005990_jpg.rf.f28a41b011109fdf6b212dee6bc43767.jpg",
+      "truth": "violation",
+      "score": 0.04174017533659935
+    },
+    {
+      "image": "dataset/test/images/005991_jpg.rf.94a8146557660acb709317fe2e557413.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005992_jpg.rf.66ff05440b7cf5d602fe11fa03a3b334.jpg",
+      "truth": "violation",
+      "score": 0.1717725247144699
+    },
+    {
+      "image": "dataset/test/images/005993_jpg.rf.19036983a03b761d012a34339b6e9d39.jpg",
+      "truth": "compliant",
+      "score": 0.02700432762503624
+    },
+    {
+      "image": "dataset/test/images/005994_jpg.rf.c9ee8b07c5aa959a53baeda4af5f650a.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005995_jpg.rf.49b98573a6136b6c4012b6cda1c32483.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005996_jpg.rf.d10d1f411b2225d5157fa8f7207c9d03.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005997_jpg.rf.e760a61000d79b931c06c0dc011faef5.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005998_jpg.rf.cf1fb9c2e620d83df844697ab17ecc2d.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/005999_jpg.rf.ae8ef6861e405d7ab2892623e4acd604.jpg",
+      "truth": "violation",
+      "score": 0.8061834573745728
+    },
+    {
+      "image": "dataset/test/images/006000_jpg.rf.10fa9b9ea19e561a9cfe6e8d7ed362d7.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/006001_jpg.rf.42864c66d47d70f97432803886458ed6.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/006002_jpg.rf.b29e4643c2bf334c1a0829957dfbfa03.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    },
+    {
+      "image": "dataset/test/images/006003_jpg.rf.b3e874104153850d8c3bf4ce55aa59df.jpg",
+      "truth": "compliant",
+      "score": 0.0
+    }
+  ]
+}
