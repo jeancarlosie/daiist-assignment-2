@@ -1,5 +1,5 @@
 """
-Assignment 2: Gradio dashboard.
+Assignment 2: Gradio dashboard
 """
 
 from __future__ import annotations
@@ -34,12 +34,12 @@ if not WEIGHTS_PATH.exists():
 if not ARTIFACT_PATH.exists():
     raise SystemExit(f"No {ARTIFACT_PATH}. Run `uv run python main.py train` first.")
 
-model = YOLO(str(WEIGHTS_PATH))  # the committed weights, never runs/
+model = YOLO(str(WEIGHTS_PATH))  # the committed weights, never runs
 ARTIFACT = json.loads(ARTIFACT_PATH.read_text())
 ROWS = [ScoredImage(**r) for r in ARTIFACT["test_rows"]]
 CHOSEN = ARTIFACT["chosen_operating_point"]
 
-# Fixed context, computed once at startup from the saved test-split scores.
+# Fixed context, computed once at startup from the saved test-split scores
 MODEL_ALONE = best_single_threshold(ROWS)
 EVERYTHING = human_checks_everything(ROWS)
 NOTHING = do_nothing()
@@ -119,6 +119,28 @@ def cost_curve_figure(low: float, high: float, current_cost: float) -> go.Figure
     return fig
 
 
+def score_histogram_figure(low: float, high: float) -> go.Figure:
+    """Where the two kinds of snapshot score. The band only helps where the
+    two distributions overlap; a compliant snapshot scoring above the weakest
+    violation is a confident mistake no threshold can remove."""
+    fig = go.Figure()
+    for truth, colour in (("compliant", "#4c78a8"), ("violation", "#e45756")):
+        fig.add_trace(go.Histogram(
+            x=[r.score for r in ROWS if r.truth == truth], name=f"True: {truth}",
+            xbins=dict(start=0, end=1.0001, size=0.02), marker_color=colour, opacity=0.7,
+        ))
+    fig.add_vline(x=low, line_dash="dot", line_color="darkorange", annotation_text="ESCALATE")
+    fig.add_vline(x=high, line_dash="dash", line_color="firebrick", annotation_text="FAIL")
+    fig.update_layout(
+        barmode="overlay", title="Test-split scores by true class",
+        xaxis_title=f"Highest '{POSITIVE_CLASS}' confidence in the snapshot",
+        yaxis_title="snapshots (log scale)", yaxis_type="log",
+        margin=dict(t=50, b=40, l=10, r=10), height=320,
+        legend=dict(orientation="h", y=-0.3),
+    )
+    return fig
+
+
 def update_costs(low: float, high: float):
     low, high = min(low, high), max(low, high)
     design = three_way_cost(ROWS, low, high)
@@ -145,6 +167,7 @@ def update_costs(low: float, high: float):
         summary,
         confusion_figure(low, high),
         cost_curve_figure(low, high, design["cost"]),
+        score_histogram_figure(low, high),
         comparison,
     )
 
@@ -159,7 +182,7 @@ def detection_confusion_figure() -> go.Figure | None:
         colorscale="Blues", showscale=False,
     ))
     fig.update_layout(
-        title="Detection confusion matrix (test split, boxes)",
+        title=f"Detection confusion matrix (test split, boxes, confidence >= {cm.get('conf', '?')})",
         xaxis_title="True class", yaxis_title="Predicted class",
         margin=dict(t=50, b=40, l=10, r=10), height=380,
     )
@@ -200,8 +223,9 @@ with gr.Blocks(title="Hard-hat compliance dashboard") as demo:
         with gr.Row():
             outcome_plot = gr.Plot()
             cost_plot = gr.Plot()
+        score_plot = gr.Plot()
         comparison_table = gr.Dataframe(label="Designs compared (EUR per 1,000 snapshots)")
-        outputs = [summary_md, outcome_plot, cost_plot, comparison_table]
+        outputs = [summary_md, outcome_plot, cost_plot, score_plot, comparison_table]
         for slider in (low_slider, high_slider):
             slider.change(update_costs, [low_slider, high_slider], outputs)
         demo.load(update_costs, [low_slider, high_slider], outputs)
@@ -219,12 +243,53 @@ with gr.Blocks(title="Hard-hat compliance dashboard") as demo:
         if det_fig is not None:
             gr.Plot(det_fig)
         if isinstance(ARTIFACT.get("baselines"), list):
+            baseline_cols = ["model", "head_AP50", "recall", "specificity", "precision",
+                             "precision_at_site", "accuracy", "cost_per_1000"]
+            baseline_df = pd.DataFrame(ARTIFACT["baselines"])
             gr.Dataframe(
-                pd.DataFrame(ARTIFACT["baselines"])[
-                    ["model", "head_AP50", "precision", "recall", "accuracy", "cost_per_1000"]
-                ].round(3),
-                label="Finetuned model vs baselines (test split, per snapshot, model alone)",
+                baseline_df[[c for c in baseline_cols if c in baseline_df]].round(3),
+                label="Finetuned model vs baselines (test split, per snapshot, model alone; "
+                      "precision_at_site re-projected onto the assumed base rate)",
             )
+        if ARTIFACT.get("dataset_summary"):
+            gr.Dataframe(
+                pd.DataFrame([
+                    {
+                        "split": split,
+                        "images_in_split": info["images"],
+                        "class": name,
+                        "images_with_class": stats["images"],
+                        "instances": stats["instances"],
+                        "mean_box_area_pct": stats["mean_box_area_pct"],
+                        "median_box_area_pct": stats["median_box_area_pct"],
+                    }
+                    for split, info in ARTIFACT["dataset_summary"].items()
+                    for name, stats in info["classes"].items()
+                ]).round(2),
+                label="Dataset composition, computed from the label files",
+            )
+        failures = ARTIFACT.get("failure_cases")
+        if failures:
+            gr.Markdown(
+                f"### Where it breaks\nHighest score on a compliant snapshot: "
+                f"**{failures['highest_score_on_compliant']:.2f}**; lowest score on a "
+                f"violation: **{failures['lowest_score_on_violation']:.2f}**. Where those "
+                "ranges overlap, no threshold separates the two."
+            )
+            with gr.Row():
+                gr.Gallery(
+                    [(str(ROOT / f["image"]), f"score {f['score']:.2f}")
+                     for f in failures["confident_false_alarms"] if (ROOT / f["image"]).exists()],
+                    label="Compliant snapshots the model is most sure show a bare head",
+                    columns=3, height="auto",
+                )
+                gr.Gallery(
+                    [(str(ROOT / f["image"]), f"score {f['score']:.2f}")
+                     for f in failures["weakest_violations"] if (ROOT / f["image"]).exists()],
+                    label="Violations the model scores lowest",
+                    columns=3, height="auto",
+                )
 
 if __name__ == "__main__":
-    demo.launch()
+    # The failure-case images live in artifacts/; let Gradio serve them
+    demo.launch(allowed_paths=[str(ROOT / "artifacts")])

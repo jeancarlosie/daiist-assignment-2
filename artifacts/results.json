@@ -25,6 +25,80 @@
     "mAP50": 0.6519177705860363,
     "mAP50_95": 0.44840380712011946
   },
+  "dataset_summary": {
+    "train": {
+      "images": 4916,
+      "images_without_labels": 0,
+      "classes": {
+        "head": {
+          "instances": 4612,
+          "images": 911,
+          "mean_box_area_pct": 0.9551442947025199,
+          "median_box_area_pct": 0.5945945945945946
+        },
+        "helmet": {
+          "instances": 13919,
+          "images": 4503,
+          "mean_box_area_pct": 1.9657183488651273,
+          "median_box_area_pct": 0.822289156626506
+        },
+        "person": {
+          "instances": 450,
+          "images": 154,
+          "mean_box_area_pct": 13.548355562670595,
+          "median_box_area_pct": 8.166163141993959
+        }
+      }
+    },
+    "valid": {
+      "images": 1413,
+      "images_without_labels": 0,
+      "classes": {
+        "head": {
+          "instances": 1339,
+          "images": 256,
+          "mean_box_area_pct": 0.9282403400229469,
+          "median_box_area_pct": 0.6174318030605457
+        },
+        "helmet": {
+          "instances": 3913,
+          "images": 1297,
+          "mean_box_area_pct": 2.0285642039832137,
+          "median_box_area_pct": 0.8648648648648649
+        },
+        "person": {
+          "instances": 101,
+          "images": 32,
+          "mean_box_area_pct": 10.178231021946752,
+          "median_box_area_pct": 6.203703703703704
+        }
+      }
+    },
+    "test": {
+      "images": 706,
+      "images_without_labels": 0,
+      "classes": {
+        "head": {
+          "instances": 726,
+          "images": 140,
+          "mean_box_area_pct": 0.9415969954863048,
+          "median_box_area_pct": 0.6289156626506025
+        },
+        "helmet": {
+          "instances": 1915,
+          "images": 636,
+          "mean_box_area_pct": 2.131208788920111,
+          "median_box_area_pct": 0.8184615384615386
+        },
+        "person": {
+          "instances": 64,
+          "images": 23,
+          "mean_box_area_pct": 15.251387781108003,
+          "median_box_area_pct": 8.482417582417582
+        }
+      }
+    }
+  },
   "per_class_metrics": [
     {
       "class": "head",
@@ -49,6 +123,7 @@
     }
   ],
   "detection_confusion_matrix": {
+    "conf": 0.25,
     "labels": [
       "head",
       "helmet",
@@ -57,30 +132,87 @@
     ],
     "matrix_predicted_by_true": [
       [
-        677,
-        61,
+        678,
+        2,
         0,
-        967
+        104
       ],
       [
-        45,
-        1829,
-        1,
-        2126
+        20,
+        1817,
+        0,
+        201
       ],
       [
         0,
-        1,
-        48,
-        1742
+        0,
+        0,
+        0
       ],
       [
-        4,
-        24,
-        15,
+        28,
+        96,
+        64,
         0
       ]
     ]
+  },
+  "failure_cases": {
+    "confident_false_alarms": [
+      {
+        "image": "artifacts/failures/false_alarm_0.jpg",
+        "score": 0.8407725691795349
+      },
+      {
+        "image": "artifacts/failures/false_alarm_1.jpg",
+        "score": 0.8376543521881104
+      },
+      {
+        "image": "artifacts/failures/false_alarm_2.jpg",
+        "score": 0.8245319724082947
+      },
+      {
+        "image": "artifacts/failures/false_alarm_3.jpg",
+        "score": 0.7800112962722778
+      },
+      {
+        "image": "artifacts/failures/false_alarm_4.jpg",
+        "score": 0.7049787044525146
+      },
+      {
+        "image": "artifacts/failures/false_alarm_5.jpg",
+        "score": 0.5828438401222229
+      }
+    ],
+    "weakest_violations": [
+      {
+        "image": "artifacts/failures/missed_0.jpg",
+        "score": 0.0
+      },
+      {
+        "image": "artifacts/failures/missed_1.jpg",
+        "score": 0.0
+      },
+      {
+        "image": "artifacts/failures/missed_2.jpg",
+        "score": 0.0
+      },
+      {
+        "image": "artifacts/failures/missed_3.jpg",
+        "score": 0.0
+      },
+      {
+        "image": "artifacts/failures/missed_4.jpg",
+        "score": 0.0
+      },
+      {
+        "image": "artifacts/failures/missed_5.jpg",
+        "score": 0.0
+      }
+    ],
+    "highest_score_on_compliant": 0.8407725691795349,
+    "lowest_score_on_violation": 0.0,
+    "violations_below_escalate_edge": 6
   },
   "baselines": [
     {
@@ -91,23 +223,45 @@
       "fp": 35,
       "fn": 7,
       "tn": 531,
-      "precision": 0.7916666666666666,
       "recall": 0.95,
+      "recall_95ci": [
+        0.9003915218276064,
+        0.9755720380883011
+      ],
+      "specificity": 0.9381625441696113,
+      "specificity_95ci": [
+        0.9152130291228139,
+        0.9552042938665922
+      ],
+      "precision": 0.7916666666666666,
       "accuracy": 0.9405099150141643,
-      "cost_per_1000": 308.08303886925796
+      "precision_at_site": 0.6305851999530901,
+      "accuracy_at_site": 0.9393462897526502,
+      "cost_per_1000": 370.58303886925796
     },
     {
       "model": "Pretrained COCO, zero-shot ('person' as proxy)",
       "head_AP50": 0.0,
-      "cut": 0.72,
-      "tp": 137,
-      "fp": 460,
-      "fn": 3,
-      "tn": 106,
-      "precision": 0.22948073701842547,
-      "recall": 0.9785714285714285,
-      "accuracy": 0.34419263456090654,
-      "cost_per_1000": 1665.1627965673902
+      "cut": 0.68,
+      "tp": 139,
+      "fp": 477,
+      "fn": 1,
+      "tn": 89,
+      "recall": 0.9928571428571429,
+      "recall_95ci": [
+        0.9606506328243919,
+        0.9987380280358878
+      ],
+      "specificity": 0.15724381625441697,
+      "specificity_95ci": [
+        0.12957595992811255,
+        0.18953306966888422
+      ],
+      "precision": 0.22564935064935066,
+      "accuracy": 0.32294617563739375,
+      "precision_at_site": 0.11574914593920206,
+      "accuracy_at_site": 0.24080514891468957,
+      "cost_per_1000": 1679.0888440181725
     },
     {
       "model": "Trivial: predict nothing (= majority class 'compliant')",
@@ -117,20 +271,31 @@
       "fp": 0,
       "fn": 140,
       "tn": 566,
-      "precision": 0.0,
       "recall": 0.0,
+      "recall_95ci": [
+        0.0,
+        0.02670715564899167
+      ],
+      "specificity": 1.0,
+      "specificity_95ci": [
+        0.9932584774435562,
+        1.0
+      ],
+      "precision": 0.0,
       "accuracy": 0.8016997167138811,
-      "cost_per_1000": 3750.0
+      "precision_at_site": 0.0,
+      "accuracy_at_site": 0.9,
+      "cost_per_1000": 5000.0
     }
   ],
   "cost_matrix": {
-    "cost_fn": 37.5,
+    "cost_fn": 50.0,
     "cost_fp": 2.1666666666666665,
     "cost_review": 0.35750000000000004,
     "base_rate": 0.1,
     "safety_officer_recall": 0.97,
     "safety_officer_specificity": 0.95,
-    "avg_injury_cost_eur": 75000.0,
+    "avg_injury_cost_eur": 100000.0,
     "p_injury_if_missed": 0.0005
   },
   "cost_sweep_single_threshold": [
@@ -141,7 +306,7 @@
       "fp": 104.94699646643109,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 388.09944472488644
+      "cost": 441.670873296315
     },
     {
       "low": 0.04,
@@ -150,7 +315,7 @@
       "fp": 73.14487632508833,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 319.19485108531046
+      "cost": 372.766279656739
     },
     {
       "low": 0.06,
@@ -159,7 +324,7 @@
       "fp": 55.65371024734983,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 308.08303886925796
+      "cost": 370.58303886925796
     },
     {
       "low": 0.08,
@@ -168,7 +333,7 @@
       "fp": 46.113074204947,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 314.19737506309946
+      "cost": 385.6259464916709
     },
     {
       "low": 0.1,
@@ -177,7 +342,7 @@
       "fp": 39.75265017667844,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 327.2021706208985
+      "cost": 407.55931347804136
     },
     {
       "low": 0.12,
@@ -186,7 +351,7 @@
       "fp": 34.98233215547703,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 316.8664815749621
+      "cost": 397.22362443210494
     },
     {
       "low": 0.14,
@@ -195,7 +360,7 @@
       "fp": 33.3922261484099,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 393.7783947501262
+      "cost": 500.9212518929833
     },
     {
       "low": 0.16,
@@ -204,7 +369,7 @@
       "fp": 33.3922261484099,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 393.7783947501262
+      "cost": 500.9212518929833
     },
     {
       "low": 0.18,
@@ -213,7 +378,7 @@
       "fp": 31.80212014134276,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 417.1188793538617
+      "cost": 533.1903079252903
     },
     {
       "low": 0.2,
@@ -222,7 +387,7 @@
       "fp": 28.621908127208478,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 410.22841998990407
+      "cost": 526.2998485613327
     },
     {
       "low": 0.22,
@@ -231,7 +396,7 @@
       "fp": 23.85159010600707,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 453.46415951539626
+      "cost": 587.3927309439676
     },
     {
       "low": 0.24,
@@ -240,7 +405,7 @@
       "fp": 22.261484098939928,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 450.0189298334175
+      "cost": 583.9475012619888
     },
     {
       "low": 0.26,
@@ -249,7 +414,7 @@
       "fp": 19.081272084805654,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 496.6998990408884
+      "cost": 648.4856133266027
     },
     {
       "low": 0.28,
@@ -258,7 +423,7 @@
       "fp": 17.491166077738516,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 493.2546693589096
+      "cost": 645.040383644624
     },
     {
       "low": 0.3,
@@ -267,7 +432,7 @@
       "fp": 17.491166077738516,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 520.040383644624
+      "cost": 680.7546693589096
     },
     {
       "low": 0.32,
@@ -276,7 +441,7 @@
       "fp": 15.90106007067138,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 516.5951539626451
+      "cost": 677.3094396769308
     },
     {
       "low": 0.34,
@@ -285,7 +450,7 @@
       "fp": 15.90106007067138,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 543.3808682483594
+      "cost": 713.0237253912165
     },
     {
       "low": 0.36,
@@ -294,7 +459,7 @@
       "fp": 14.310954063604239,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 539.9356385663806
+      "cost": 709.5784957092377
     },
     {
       "low": 0.38,
@@ -303,7 +468,7 @@
       "fp": 14.310954063604239,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 539.9356385663806
+      "cost": 709.5784957092377
     },
     {
       "low": 0.4,
@@ -312,7 +477,7 @@
       "fp": 12.720848056537102,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 536.4904088844019
+      "cost": 706.133266027259
     },
     {
       "low": 0.42,
@@ -321,7 +486,7 @@
       "fp": 11.130742049469964,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 533.045179202423
+      "cost": 702.6880363452801
     },
     {
       "low": 0.44,
@@ -330,7 +495,7 @@
       "fp": 11.130742049469964,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 559.8308934881372
+      "cost": 738.4023220595658
     },
     {
       "low": 0.46,
@@ -339,7 +504,7 @@
       "fp": 11.130742049469964,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 586.6166077738516
+      "cost": 774.1166077738516
     },
     {
       "low": 0.48,
@@ -348,7 +513,7 @@
       "fp": 11.130742049469964,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 586.6166077738516
+      "cost": 774.1166077738516
     },
     {
       "low": 0.5,
@@ -357,7 +522,7 @@
       "fp": 11.130742049469964,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 586.6166077738516
+      "cost": 774.1166077738516
     },
     {
       "low": 0.52,
@@ -366,7 +531,7 @@
       "fp": 9.540636042402827,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 583.1713780918728
+      "cost": 770.6713780918728
     },
     {
       "low": 0.54,
@@ -375,7 +540,7 @@
       "fp": 9.540636042402827,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 609.9570923775871
+      "cost": 806.3856638061585
     },
     {
       "low": 0.56,
@@ -384,7 +549,7 @@
       "fp": 9.540636042402827,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 609.9570923775871
+      "cost": 806.3856638061585
     },
     {
       "low": 0.58,
@@ -393,7 +558,7 @@
       "fp": 9.540636042402827,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 663.5285209490157
+      "cost": 877.81423523473
     },
     {
       "low": 0.6,
@@ -402,7 +567,7 @@
       "fp": 7.95053003533569,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 660.0832912670369
+      "cost": 874.3690055527511
     },
     {
       "low": 0.62,
@@ -411,7 +576,7 @@
       "fp": 7.95053003533569,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 713.6547198384654
+      "cost": 945.7975769813227
     },
     {
       "low": 0.64,
@@ -420,7 +585,7 @@
       "fp": 7.95053003533569,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 713.6547198384654
+      "cost": 945.7975769813227
     },
     {
       "low": 0.66,
@@ -429,7 +594,7 @@
       "fp": 7.95053003533569,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 767.226148409894
+      "cost": 1017.226148409894
     },
     {
       "low": 0.68,
@@ -438,7 +603,7 @@
       "fp": 7.95053003533569,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 767.226148409894
+      "cost": 1017.226148409894
     },
     {
       "low": 0.7,
@@ -447,7 +612,7 @@
       "fp": 7.95053003533569,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 820.7975769813225
+      "cost": 1088.6547198384653
     },
     {
       "low": 0.72,
@@ -456,7 +621,7 @@
       "fp": 6.360424028268551,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 897.7094901564865
+      "cost": 1192.3523472993436
     },
     {
       "low": 0.74,
@@ -465,7 +630,7 @@
       "fp": 6.360424028268551,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 978.0666330136294
+      "cost": 1299.4952044422007
     },
     {
       "low": 0.76,
@@ -474,7 +639,7 @@
       "fp": 6.360424028268551,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 1138.7809187279152
+      "cost": 1513.7809187279152
     },
     {
       "low": 0.78,
@@ -483,7 +648,7 @@
       "fp": 6.360424028268551,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 1219.138061585058
+      "cost": 1620.9237758707725
     },
     {
       "low": 0.8,
@@ -492,7 +657,7 @@
       "fp": 4.770318021201414,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 1296.049974760222
+      "cost": 1724.6214033316505
     },
     {
       "low": 0.82,
@@ -501,7 +666,7 @@
       "fp": 4.770318021201414,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 1537.1214033316505
+      "cost": 2046.049974760222
     },
     {
       "low": 0.84,
@@ -510,7 +675,7 @@
       "fp": 1.5901060070671378,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 1905.2309439676928
+      "cost": 2539.159515396264
     },
     {
       "low": 0.86,
@@ -519,7 +684,7 @@
       "fp": 0.0,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 2383.9285714285716
+      "cost": 3178.5714285714284
     },
     {
       "low": 0.88,
@@ -528,7 +693,7 @@
       "fp": 0.0,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 3080.3571428571427
+      "cost": 4107.142857142857
     },
     {
       "low": 0.9,
@@ -537,7 +702,7 @@
       "fp": 0.0,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 3535.7142857142853
+      "cost": 4714.285714285714
     },
     {
       "low": 0.92,
@@ -546,7 +711,7 @@
       "fp": 0.0,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 3723.214285714286
+      "cost": 4964.285714285715
     },
     {
       "low": 0.94,
@@ -555,7 +720,7 @@
       "fp": 0.0,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 3750.0
+      "cost": 5000.0
     },
     {
       "low": 0.96,
@@ -564,7 +729,7 @@
       "fp": 0.0,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 3750.0
+      "cost": 5000.0
     },
     {
       "low": 0.98,
@@ -573,7 +738,7 @@
       "fp": 0.0,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 3750.0
+      "cost": 5000.0
     }
   ],
   "chosen_operating_point": {
@@ -583,7 +748,7 @@
     "fp": 12.720848056537106,
     "reviews": 74.31852599697123,
     "review_share": 0.07431852599697124,
-    "cost": 226.89856764260477
+    "cost": 284.4878533568905
   },
   "comparison": {
     "three_way": {
@@ -593,7 +758,7 @@
       "fp": 12.720848056537106,
       "reviews": 74.31852599697123,
       "review_share": 0.07431852599697124,
-      "cost": 226.89856764260477
+      "cost": 284.4878533568905
     },
     "model_alone": {
       "low": 0.06,
@@ -602,7 +767,7 @@
       "fp": 55.65371024734983,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 308.08303886925796
+      "cost": 370.58303886925796
     },
     "officer_checks_everything": {
       "low": 0.0,
@@ -611,7 +776,7 @@
       "fp": 45.00000000000004,
       "reviews": 1000.0,
       "review_share": 1.0,
-      "cost": 567.5000000000002
+      "cost": 605.0000000000002
     },
     "do_nothing": {
       "low": null,
@@ -620,7 +785,7 @@
       "fp": 0.0,
       "reviews": 0.0,
       "review_share": 0.0,
-      "cost": 3750.0
+      "cost": 5000.0
     }
   },
   "review_capacity": {
@@ -635,121 +800,231 @@
       "value": 5e-05,
       "low": 0.12,
       "high": 0.6,
-      "three_way_cost": 58.96132004038365,
+      "three_way_cost": 67.39882004038364,
       "review_share": 0.03774608783442706,
-      "model_alone_cost": 75.00946491670872,
-      "officer_checks_everything_cost": 466.25000000000017,
-      "do_nothing_cost": 375.0
+      "model_alone_cost": 91.97375063099445,
+      "officer_checks_everything_cost": 470.00000000000017,
+      "do_nothing_cost": 500.0
     },
     {
       "assumption": "p_injury_if_missed",
       "value": 0.000125,
-      "low": 0.06,
+      "low": 0.04,
       "high": 0.6,
-      "three_way_cost": 94.07912985865727,
-      "review_share": 0.05984603735487128,
-      "model_alone_cost": 136.06291014639072,
-      "officer_checks_everything_cost": 483.12500000000017,
-      "do_nothing_cost": 937.5
+      "three_way_cost": 110.58513377082282,
+      "review_share": 0.07805148914689551,
+      "model_alone_cost": 156.15219586067641,
+      "officer_checks_everything_cost": 492.50000000000017,
+      "do_nothing_cost": 1250.0
     },
     {
       "assumption": "p_injury_if_missed",
       "value": 0.00025,
       "low": 0.04,
       "high": 0.6,
-      "three_way_cost": 139.7815623422514,
+      "three_way_cost": 168.97799091367997,
       "review_share": 0.07805148914689551,
-      "model_alone_cost": 196.33076728924783,
-      "officer_checks_everything_cost": 511.2500000000002,
-      "do_nothing_cost": 1875.0
+      "model_alone_cost": 236.50933871781928,
+      "officer_checks_everything_cost": 530.0000000000002,
+      "do_nothing_cost": 2500.0
     },
     {
       "assumption": "p_injury_if_missed",
       "value": 0.0005,
       "low": 0.04,
       "high": 0.52,
-      "three_way_cost": 226.89856764260477,
+      "three_way_cost": 284.4878533568905,
       "review_share": 0.07431852599697124,
-      "model_alone_cost": 308.08303886925796,
-      "officer_checks_everything_cost": 567.5000000000002,
-      "do_nothing_cost": 3750.0
+      "model_alone_cost": 370.58303886925796,
+      "officer_checks_everything_cost": 605.0000000000002,
+      "do_nothing_cost": 5000.0
     },
     {
       "assumption": "p_injury_if_missed",
       "value": 0.001,
       "low": 0.04,
       "high": 0.42,
-      "three_way_cost": 398.6459300858152,
+      "three_way_cost": 512.753072942958,
       "review_share": 0.07129984856133266,
-      "model_alone_cost": 479.9091367995961,
-      "officer_checks_everything_cost": 680.0000000000003,
-      "do_nothing_cost": 7500.0
+      "model_alone_cost": 587.0519939424532,
+      "officer_checks_everything_cost": 755.0000000000005,
+      "do_nothing_cost": 10000.0
     },
     {
       "assumption": "p_injury_if_missed",
       "value": 0.002,
       "low": 0.04,
-      "high": 0.42,
-      "three_way_cost": 740.9673586572438,
-      "review_share": 0.07129984856133266,
-      "model_alone_cost": 801.3377082281676,
-      "officer_checks_everything_cost": 905.0000000000005,
-      "do_nothing_cost": 15000.0
+      "high": 0.12,
+      "three_way_cost": 964.3385095911157,
+      "review_share": 0.04030540131246845,
+      "model_alone_cost": 1015.6234225138818,
+      "officer_checks_everything_cost": 1055.0000000000007,
+      "do_nothing_cost": 20000.0
     },
     {
       "assumption": "base_rate",
       "value": 0.02,
-      "low": 0.12,
-      "high": 0.84,
-      "three_way_cost": 82.03436984687869,
-      "review_share": 0.04521756688541141,
-      "model_alone_cost": 128.04602052835267,
-      "officer_checks_everything_cost": 486.16666666666686,
-      "do_nothing_cost": 750.0
+      "low": 0.06,
+      "high": 0.72,
+      "three_way_cost": 96.90873801110551,
+      "review_share": 0.0573891973750631,
+      "model_alone_cost": 146.81810533400636,
+      "officer_checks_everything_cost": 493.66666666666686,
+      "do_nothing_cost": 1000.0
     },
     {
       "assumption": "base_rate",
       "value": 0.05,
       "low": 0.04,
       "high": 0.6,
-      "three_way_cost": 140.12756183745586,
+      "three_way_cost": 169.3239904088844,
       "review_share": 0.07524482584553256,
-      "model_alone_cost": 200.54160356722193,
-      "officer_checks_everything_cost": 516.6666666666669,
-      "do_nothing_cost": 1875.0
+      "model_alone_cost": 240.72017499579334,
+      "officer_checks_everything_cost": 535.4166666666669,
+      "do_nothing_cost": 2500.0
     },
     {
       "assumption": "base_rate",
       "value": 0.1,
       "low": 0.04,
       "high": 0.52,
-      "three_way_cost": 226.89856764260477,
+      "three_way_cost": 284.4878533568905,
       "review_share": 0.07431852599697124,
-      "model_alone_cost": 308.08303886925796,
-      "officer_checks_everything_cost": 567.5000000000002,
-      "do_nothing_cost": 3750.0
+      "model_alone_cost": 370.58303886925796,
+      "officer_checks_everything_cost": 605.0000000000002,
+      "do_nothing_cost": 5000.0
     },
     {
       "assumption": "base_rate",
       "value": 0.2,
       "low": 0.04,
       "high": 0.42,
-      "three_way_cost": 396.07614420326433,
+      "three_way_cost": 510.18328706040717,
       "review_share": 0.07369510348308936,
-      "model_alone_cost": 462.3001850917045,
-      "officer_checks_everything_cost": 669.166666666667,
-      "do_nothing_cost": 7500.0
+      "model_alone_cost": 569.4430422345616,
+      "officer_checks_everything_cost": 744.1666666666671,
+      "do_nothing_cost": 10000.0
     },
     {
       "assumption": "base_rate",
       "value": 0.4,
       "low": 0.04,
       "high": 0.12,
-      "three_way_cost": 717.9459111559819,
+      "three_way_cost": 935.4459111559819,
       "review_share": 0.03401312468450278,
-      "model_alone_cost": 748.5108531044928,
-      "officer_checks_everything_cost": 872.5000000000005,
-      "do_nothing_cost": 15000.0
+      "model_alone_cost": 962.796567390207,
+      "officer_checks_everything_cost": 1022.5000000000007,
+      "do_nothing_cost": 20000.0
+    },
+    {
+      "assumption": "cost_review_eur",
+      "value": 0.17875000000000002,
+      "low": 0.04,
+      "high": 0.52,
+      "three_way_cost": 271.2034168349319,
+      "review_share": 0.07431852599697124,
+      "model_alone_cost": 370.58303886925796,
+      "officer_checks_everything_cost": 426.2500000000002,
+      "do_nothing_cost": 5000.0
+    },
+    {
+      "assumption": "cost_review_eur",
+      "value": 0.35750000000000004,
+      "low": 0.04,
+      "high": 0.52,
+      "three_way_cost": 284.4878533568905,
+      "review_share": 0.07431852599697124,
+      "model_alone_cost": 370.58303886925796,
+      "officer_checks_everything_cost": 605.0000000000002,
+      "do_nothing_cost": 5000.0
+    },
+    {
+      "assumption": "cost_review_eur",
+      "value": 0.7150000000000001,
+      "low": 0.04,
+      "high": 0.42,
+      "three_way_cost": 310.0284830893488,
+      "review_share": 0.07129984856133266,
+      "model_alone_cost": 370.58303886925796,
+      "officer_checks_everything_cost": 962.5000000000003,
+      "do_nothing_cost": 5000.0
+    },
+    {
+      "assumption": "cost_review_eur",
+      "value": 1.4300000000000002,
+      "low": 0.04,
+      "high": 0.12,
+      "three_way_cost": 355.06605249873803,
+      "review_share": 0.04030540131246845,
+      "model_alone_cost": 370.58303886925796,
+      "officer_checks_everything_cost": 1677.5000000000005,
+      "do_nothing_cost": 5000.0
+    },
+    {
+      "assumption": "cost_review_eur",
+      "value": 2.8600000000000003,
+      "low": 0.06,
+      "high": 0.06,
+      "three_way_cost": 370.58303886925796,
+      "review_share": 0.0,
+      "model_alone_cost": 370.58303886925796,
+      "officer_checks_everything_cost": 3107.500000000001,
+      "do_nothing_cost": 5000.0
+    },
+    {
+      "assumption": "officer_recall",
+      "value": 0.99,
+      "low": 0.04,
+      "high": 0.6,
+      "three_way_cost": 272.9065623422514,
+      "review_share": 0.07805148914689551,
+      "model_alone_cost": 370.58303886925796,
+      "officer_checks_everything_cost": 505.00000000000017,
+      "do_nothing_cost": 5000.0
+    },
+    {
+      "assumption": "officer_recall",
+      "value": 0.97,
+      "low": 0.04,
+      "high": 0.52,
+      "three_way_cost": 284.4878533568905,
+      "review_share": 0.07431852599697124,
+      "model_alone_cost": 370.58303886925796,
+      "officer_checks_everything_cost": 605.0000000000002,
+      "do_nothing_cost": 5000.0
+    },
+    {
+      "assumption": "officer_recall",
+      "value": 0.9,
+      "low": 0.04,
+      "high": 0.42,
+      "three_way_cost": 317.0387872286724,
+      "review_share": 0.07129984856133266,
+      "model_alone_cost": 370.58303886925796,
+      "officer_checks_everything_cost": 955.0,
+      "do_nothing_cost": 5000.0
+    },
+    {
+      "assumption": "officer_recall",
+      "value": 0.8,
+      "low": 0.04,
+      "high": 0.12,
+      "three_way_cost": 330.0527953054012,
+      "review_share": 0.04030540131246845,
+      "model_alone_cost": 370.58303886925796,
+      "officer_checks_everything_cost": 1454.9999999999998,
+      "do_nothing_cost": 5000.0
+    },
+    {
+      "assumption": "officer_recall",
+      "value": 0.6,
+      "low": 0.04,
+      "high": 0.12,
+      "three_way_cost": 351.48136673397266,
+      "review_share": 0.04030540131246845,
+      "model_alone_cost": 370.58303886925796,
+      "officer_checks_everything_cost": 2455.0,
+      "do_nothing_cost": 5000.0
     }
   ],
   "test_rows": [
