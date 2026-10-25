@@ -148,3 +148,9 @@ The band beats the model alone because an uncertain case costs a €0.36 review 
 ## Generative AI use disclosure
 
 *Per the syllabus AI Policy: what you used and how, or "no AI content used."*
+
+## Generative AI use disclosure
+
+I used Claude (Anthropic's AI assistant, via claude.ai) throughout this assignment:
+
+I used Claude to write most of train.py (the training pipeline, cost model and threshold sweep) and the entirety of app.py (the Gradio dashboard), and to help me debug them, including the slow training and evaluation on my M1 laptop. I ran every stage myself, checked the outputs, and tested the dashboard with my own images. In terms of business framing, I used Claude to help me research the typical cost figures and find sources (OSHA Safety Pays, eLCOSH) to justify my final choices, but I chose the dataset, brainstormed the three-way design, reviewed all the assumptions, and wrote the Report myself (using Claude to reword certain sections for improved readability).
